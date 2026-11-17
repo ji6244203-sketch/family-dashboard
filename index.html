@@ -476,6 +476,7 @@ h1,h2,h3{margin:0;font-weight:400;}
   border-color:#EFD6C4;
   margin-left:2px;
 }
+.ev-del svg{display:block;width:clamp(15px,1.95vh,18px);height:clamp(15px,1.95vh,18px);}
 .ev-del:hover{background:#F7E0D1;border-color:var(--peach-2);color:#7C462B;}
 .ev-done .tick{font-size:clamp(20px,2.8vh,26px);color:var(--sage-2);opacity:.5;transition:opacity .18s,color .18s;line-height:1;}
 .ev.done{background:var(--sage-1);}
@@ -1176,7 +1177,7 @@ function renderSchedule() {
         <div class="ev-tools">
           <button class="ev-edit" data-act="edit-ev" aria-label="${esc(e.title)} 수정">✏️</button>
           <button class="ev-done" aria-pressed="${done}" aria-label="${esc(e.title)} 완료 표시"><span class="tick">✓</span></button>
-          <button class="ev-del" data-act="del-ev" aria-label="${esc(e.title)} 삭제">✕</button>
+          <button class="ev-del" data-act="del-ev" aria-label="${esc(e.title)} 삭제"><svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
         </div>
       </li>`;
   }).join('');
