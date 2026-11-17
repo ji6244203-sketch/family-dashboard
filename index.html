@@ -192,6 +192,11 @@ h1,h2,h3{margin:0;font-weight:400;}
   .w-meta{align-items:flex-start;}
 }
 
+/* 아주 좁은 화면(폰)에서는 체크리스트를 1열로 */
+@media (max-width:420px){
+  #chkList{grid-template-columns:1fr;}
+}
+
 /* ---------- 카드 머리 ---------- */
 .card-body{
   display:flex;flex-direction:column;min-height:0;
@@ -255,65 +260,88 @@ h1,h2,h3{margin:0;font-weight:400;}
 .list::-webkit-scrollbar{width:8px;}
 .list::-webkit-scrollbar-thumb{background:var(--cream-3);border-radius:99px;}
 
+/* 등원 체크리스트: 그림 큰 2열(4행×2열) 카드 타일 — 글자를 못 읽어도 그림으로 알아보게 */
+#chkList{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-auto-rows:1fr;
+  gap:clamp(7px,1vh,12px);
+  align-items:stretch;
+}
+#chkList .empty{grid-column:1 / -1;}
 .chk{
-  display:flex;align-items:center;gap:clamp(10px,1.2vw,16px);
-  border-radius:18px;
-  padding:clamp(7px,1vh,12px) clamp(9px,1vw,14px);
+  position:relative;
+  display:flex;align-items:stretch;
+  border-radius:20px;
+  padding:clamp(8px,1.1vh,14px) clamp(8px,1vw,14px);
   background:#FFFDF7;
   border:1px solid var(--line);
   transition:background .2s,border-color .2s;
+  min-height:clamp(56px,8.5vh,96px);
 }
 .chk-main{
-  display:flex;align-items:center;gap:clamp(10px,1.2vw,16px);
-  flex:1 1 auto;min-width:0;text-align:left;
-  min-height:52px;padding:2px 0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(3px,.5vh,7px);
+  flex:1 1 auto;min-width:0;text-align:center;
+  padding:2px 26px 2px 2px;
 }
-.chk-box{
+.chk-ico{
   flex:0 0 auto;
-  width:clamp(44px,5.6vh,54px);height:clamp(44px,5.6vh,54px);
-  border-radius:50%;
-  border:2.5px solid var(--sage-2);
-  background:#fff;
-  display:grid;place-items:center;
-  transition:background .18s,border-color .18s,transform .18s;
+  font-size:clamp(30px,5.4vh,50px);
+  line-height:1;
+  filter:drop-shadow(0 3px 4px rgba(92,76,50,.16));
+  transition:transform .18s,filter .18s;
 }
-.chk-box .tick{font-size:clamp(22px,3vh,30px);color:#fff;line-height:1;opacity:0;transform:scale(.5);transition:opacity .18s,transform .18s;}
 .chk-text{
-  font-size:clamp(18px,3.05vh,27px);
-  line-height:1.28;
+  font-size:clamp(15px,2.35vh,20px);
+  line-height:1.22;
   color:var(--ink);
   word-break:keep-all;
   transition:color .2s;
 }
+/* 완료 표시는 타일 왼쪽 위 작은 배지로 */
+.chk-box{
+  position:absolute;top:8px;left:8px;
+  flex:0 0 auto;
+  width:clamp(26px,3.2vh,32px);height:clamp(26px,3.2vh,32px);
+  border-radius:50%;
+  border:2px solid var(--sage-2);
+  background:#fff;
+  display:grid;place-items:center;
+  transition:background .18s,border-color .18s,transform .18s;
+}
+.chk-box .tick{font-size:clamp(15px,2vh,20px);color:#fff;line-height:1;opacity:0;transform:scale(.5);transition:opacity .18s,transform .18s;}
 .chk.done{background:var(--sage-1);border-color:#DDE8D4;}
+.chk.done .chk-ico{transform:scale(.92);}
 .chk.done .chk-box{background:var(--sage-3);border-color:var(--sage-3);}
 .chk.done .chk-box .tick{opacity:1;transform:scale(1);}
 .chk.done .chk-text{color:var(--muted);text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:#C9BDA9;}
 
-/* 완료 배너가 뜨면 목록을 조금 촘촘하게: 5개 항목이 한 화면에 계속 보이도록 */
-.celebrate:not([hidden]) ~ .list{gap:6px;}
-.celebrate:not([hidden]) ~ .list .chk{padding:3px 12px;}
-.celebrate:not([hidden]) ~ .list .chk-main{min-height:44px;}
-.celebrate:not([hidden]) ~ .list .chk-box{width:44px;height:44px;}
-
-/* 브라우저 바가 높이를 줄인 태블릿(예: 1280x720)에서도 5개 항목이 들어가게 */
-@media (orientation:landscape) and (max-height:760px) and (min-width:960px){
-  .list{gap:4px;}
-  .chk{padding:3px 12px;}
-  .chk-main{min-height:44px;}
-  .chk-box{width:44px;height:44px;}
-  .chk-box .tick{font-size:22px;}
-}
-
+/* 삭제 버튼은 타일 오른쪽 위에 조그맣게 */
 .del{
+  position:absolute;top:6px;right:6px;
   flex:0 0 auto;
-  width:44px;height:44px;border-radius:50%;
+  width:32px;height:32px;border-radius:50%;
   display:grid;place-items:center;
-  color:#C4B7A3;font-size:22px;line-height:1;
+  color:#C4B7A3;font-size:15px;line-height:1;
   background:transparent;
   transition:background .18s,color .18s;
 }
 .del:hover{background:#FBEDE6;color:var(--peach-ink);}
+
+/* 완료 배너가 뜨면 타일이 조금 촘촘해진다(그리드가 알아서 줄여 준다) */
+.celebrate:not([hidden]) ~ .list{gap:5px;}
+.celebrate:not([hidden]) ~ .list .chk-ico{font-size:clamp(26px,4.6vh,42px);}
+
+/* 브라우저 바가 높이를 줄인 태블릿(예: 1280x720)에서도 8개 타일이 들어가게 */
+@media (orientation:landscape) and (max-height:760px) and (min-width:960px){
+  #chkList{gap:4px;}
+  .chk{padding:4px 10px;}
+  .chk-ico{font-size:clamp(24px,4.4vh,38px);}
+  .chk-text{font-size:clamp(13px,2.1vh,17px);}
+  .chk-box{width:24px;height:24px;}
+  .chk-box .tick{font-size:14px;}
+}
 
 .card-foot{display:flex;gap:8px;flex:0 0 auto;flex-wrap:wrap;}
 .btn{
@@ -587,7 +615,7 @@ h1,h2,h3{margin:0;font-weight:400;}
       <div class="card-body">
         <div class="card-head">
           <h2 class="card-title" id="chkTitle">🎒 설 등원 체크리스트</h2>
-          <span class="count" id="chkCount">0 / 5</span>
+          <span class="count" id="chkCount">0 / 8</span>
         </div>
 
         <div class="bar" aria-hidden="true"><i id="chkBar"></i></div>
@@ -693,13 +721,43 @@ h1,h2,h3{margin:0;font-weight:400;}
    ============================================================ */
 const TZ = 'Asia/Seoul';
 const KEY = 'family-dashboard.v1';
+/* 체크리스트 기본 항목 — 그림(이모지)과 함께 저장한다 */
+const CL_VERSION = 2;
 const DEFAULT_CHECK = [
+  { text: '화장실가기(소변)', icon: '🚽' },
+  { text: '아침식사', icon: '🥣' },
+  { text: '영양제', icon: '💊' },
+  { text: '양치질', icon: '🪥' },
+  { text: '세수', icon: '🧼' },
+  { text: '로션', icon: '🧴' },
+  { text: '옷갈아입기', icon: '👕' },
+  { text: '가방챙기기', icon: '🎒' }
+];
+/* 예전(v1) 기본 항목 — 이것들로 저장된 기기는 새 8개 항목으로 자동 전환 */
+const OLD_DEFAULT_TEXTS = [
   '양치·세수하기',
   '옷 입기 & 겉옷 챙기기',
   '물통·수저통 챙기기',
   '여벌옷·손수건 확인',
   '알림장 확인하기'
 ];
+/* 항목 이름에 맞는 그림 찾기 (새로 추가하는 항목에도 기본 그림이 붙도록) */
+const ICON_HINTS = [
+  [/화장실|소변|대변|변기/, '🚽'], [/식사|밥|아침|저녁/, '🥣'], [/영양제|비타민|약/, '💊'],
+  [/양치|칫솔/, '🪥'], [/세수|손.*씻|세면/, '🧼'], [/로션|크림|선크림|바르/, '🧴'],
+  [/옷|갈아입|겉옷|잠옷/, '👕'], [/가방|준비물|책가방/, '🎒'],
+  [/물통|물마시기|물 마시|물마심/, '🥤'], [/간식|과자|우유/, '🍪'],
+  [/마스크|손수건/, '😷'], [/알림장|책|공책|읽기/, '📓'],
+  [/모자|목도리|장갑/, '🧢'], [/우산/, '☂️'],
+  [/양말|신발/, '🧦'], [/머리|빗질/, '🪮'],
+  [/장난감|인형/, '🧸']
+];
+const FALLBACK_ICON = '⭐';
+function iconFor(text) {
+  const t = String(text);
+  const hit = ICON_HINTS.find(([re]) => re.test(t));
+  return hit ? hit[1] : FALLBACK_ICON;
+}
 const WHO_KEY = { '전체': 'all', '설': 'seol', '엄마': 'mom', '아빠': 'dad' };
 
 const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast?latitude=35.8714&longitude=127.1293'
@@ -744,9 +802,10 @@ function freshState() {
   const t = todayKey();
   return {
     v: 1,
+    clVersion: CL_VERSION,
     checklist: {
       date: t,
-      items: DEFAULT_CHECK.map((text) => ({ id: uid(), text, done: false }))
+      items: DEFAULT_CHECK.map((d) => ({ id: uid(), text: d.text, icon: d.icon, done: false }))
     },
     schedule: [
       { id: uid(), time: '08:30', title: '설 등원', who: '설', repeat: 'daily', date: null, doneOn: null },
@@ -769,7 +828,17 @@ function loadState() {
   raw.checklist = raw.checklist && Array.isArray(raw.checklist.items) ? raw.checklist : s.checklist;
   raw.schedule = Array.isArray(raw.schedule) ? raw.schedule : s.schedule;
   raw.checklist.items = raw.checklist.items.filter((i) => i && typeof i.text === 'string')
-    .map((i) => ({ id: i.id || uid(), text: String(i.text).slice(0, 40), done: !!i.done }));
+    .map((i) => ({ id: i.id || uid(), text: String(i.text).slice(0, 40), icon: typeof i.icon === 'string' && i.icon ? i.icon.slice(0, 8) : iconFor(i.text), done: !!i.done }));
+  /* v1(그림 없는 5개 기본 항목) → v2(그림 있는 8개 기본 항목) 자동 전환.
+     v1 기본 항목은 걷어 내고, 직접 추가했던 항목(예전 기본 항목에 없던 것)은
+     기본 그림을 붙여 새 8개 뒤에 그대로 남긴다. */
+  const ver = Number.isFinite(raw.clVersion) ? raw.clVersion : 1;
+  if (ver < CL_VERSION) {
+    const kept = raw.checklist.items.filter((i) => !OLD_DEFAULT_TEXTS.includes(i.text));
+    raw.checklist.items = DEFAULT_CHECK.map((d) => ({ id: uid(), text: d.text, icon: d.icon, done: false }))
+      .concat(kept.map((i) => ({ ...i, icon: i.icon || iconFor(i.text) })));
+  }
+  raw.clVersion = CL_VERSION;
   raw.schedule = raw.schedule.filter((e) => e && typeof e.title === 'string')
     .map((e) => ({
       id: e.id || uid(),
@@ -786,6 +855,13 @@ function loadState() {
 }
 
 let S = loadState();
+
+/* v1 → v2 마이그레이션 등 저장값 규칙이 바뀌었으면 바로 기록해 둔다
+   (날짜가 바뀐 게 아니면 rollover() 가 저장하지 않아 매번 다시 전환하게 된다) */
+try {
+  const stored = JSON.parse(localStorage.getItem(KEY) || 'null');
+  if (!stored || stored.clVersion !== CL_VERSION) save();
+} catch (e) { save(); }
 
 function save() {
   try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* 저장 실패는 조용히 */ }
@@ -918,8 +994,9 @@ function renderChecklist() {
     list.innerHTML = items.map((i) => `
       <li class="chk${i.done ? ' done' : ''}" data-id="${esc(i.id)}">
         <button class="chk-main" role="checkbox" aria-checked="${i.done}" aria-label="${esc(i.text)}">
-          <span class="chk-box" aria-hidden="true"><span class="tick">✓</span></span>
+          <span class="chk-ico" aria-hidden="true">${esc(i.icon || iconFor(i.text))}</span>
           <span class="chk-text">${esc(i.text)}</span>
+          <span class="chk-box" aria-hidden="true"><span class="tick">✓</span></span>
         </button>
         <button class="del" aria-label="${esc(i.text)} 삭제" data-act="del-chk">✕</button>
       </li>`).join('');
@@ -987,7 +1064,7 @@ function addChk() {
   const inp = $('chkAddInput');
   const text = inp.value.trim();
   if (!text) { inp.focus(); return; }
-  S.checklist.items.push({ id: uid(), text: text.slice(0, 40), done: false });
+  S.checklist.items.push({ id: uid(), text: text.slice(0, 40), icon: iconFor(text), done: false });
   save();
   renderChecklist();
   inp.value = '';
