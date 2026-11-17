@@ -1,0 +1,7 @@
+.DS_Store
+Thumbs.db
+*.log
+
+# 검증용 임시 도구 (배포 대상 아님)
+_verify/
+node_modules/
