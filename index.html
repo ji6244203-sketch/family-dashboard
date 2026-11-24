@@ -537,8 +537,8 @@ h1,h2,h3{margin:0;font-weight:400;}
   display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
   transition:background .18s,border-color .18s,color .18s;
 }
-.day .day-now{font-family:"Gowun Dodum",sans-serif;font-size:10px;line-height:1;color:var(--rose-ink);opacity:0;}
-.day.today .day-now{opacity:1;}
+.day .day-now{font-family:"Gowun Dodum",sans-serif;font-size:10px;line-height:1;color:var(--rose-ink);visibility:hidden;}
+.day.today .day-now{visibility:visible;}
 .day:hover{background:var(--pink-1);border-color:var(--pink-2);}
 .day.on{
   background:linear-gradient(135deg,#FF9CC6,#F273AE);
