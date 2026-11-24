@@ -1084,6 +1084,49 @@ h1,h2,h3{margin:0;font-weight:400;}
   .memo-bar{padding:6px 14px;}
   .memo{min-height:32px;font-size:16px;}
 }
+
+/* ---------- 기기 연동 버튼 · 시트 ---------- */
+.nav-wrap{
+  flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;max-width:1040px;margin:0 auto;
+}
+.nav-wrap .tabs{flex:1 1 auto;margin:0;}
+.sync-btn{
+  flex:0 0 auto;
+  display:inline-flex;align-items:center;gap:6px;
+  min-height:44px;padding:0 14px;
+  border-radius:999px;
+  border:2px solid var(--pink-2);
+  background:rgba(255,255,255,.92);
+  color:var(--ink-2);
+  font-family:inherit;font-size:14px;font-weight:800;
+  cursor:pointer;white-space:nowrap;
+  box-shadow:0 6px 16px rgba(244,114,182,.10);
+  transition:transform .12s ease,background .15s ease,border-color .15s ease;
+}
+.sync-btn:active{transform:scale(.97);}
+.sync-btn.is-on{background:#ECFDF5;border-color:#A7F3D0;color:#047857;}
+.sync-btn.is-busy{background:#FFF7ED;border-color:#FED7AA;color:#C2410C;}
+.sync-btn.is-err{background:#FFF1F2;border-color:#FECDD3;color:#BE123C;}
+.sync-box{
+  background:var(--pink-0);border:1.5px solid var(--pink-2);
+  border-radius:14px;padding:12px 14px;margin-bottom:14px;
+  font-size:14px;line-height:1.5;color:var(--ink-2);
+}
+.sync-box b{color:var(--ink);}
+.sync-msg{
+  margin-top:8px;font-size:13px;font-weight:700;min-height:18px;
+  color:var(--ink-2);
+}
+.sync-msg.err{color:#BE123C;}
+.sync-msg.ok{color:#047857;}
+.sync-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.sync-actions .btn{flex:1 1 auto;min-height:42px;font-size:14px;}
+@media (max-width:720px){
+  .nav-wrap{flex-direction:column;gap:6px;}
+  .sync-btn{width:100%;justify-content:center;min-height:38px;font-size:13px;}
+}
 </style>
 </head>
 <body>
@@ -1122,21 +1165,24 @@ h1,h2,h3{margin:0;font-weight:400;}
     </div>
   </header>
 
-  <!-- ===== 탭 ===== -->
-  <nav class="tabs" role="tablist" aria-label="화면 고르기">
-    <button class="tab on" id="tabToday" role="tab" aria-selected="true" aria-controls="panel-today" data-tab="today">
-      <span class="tab-ico" aria-hidden="true">🏠</span><span class="tab-txt">오늘 · 등원</span>
-      <span class="tab-badge" id="tabBadgeToday">0/8</span>
-    </button>
-    <button class="tab" id="tabSchedule" role="tab" aria-selected="false" aria-controls="panel-schedule" data-tab="schedule">
-      <span class="tab-ico" aria-hidden="true">📅</span><span class="tab-txt">가족 일정</span>
-      <span class="tab-badge" id="tabBadgeSchedule">0</span>
-    </button>
-    <button class="tab" id="tabStudy" role="tab" aria-selected="false" aria-controls="panel-study" data-tab="study">
-      <span class="tab-ico" aria-hidden="true">📚</span><span class="tab-txt">학습 체크리스트</span>
-      <span class="tab-badge" id="tabBadgeStudy">0/9</span>
-    </button>
-  </nav>
+  <!-- ===== 탭 + 기기 연동 ===== -->
+  <div class="nav-wrap">
+    <nav class="tabs" role="tablist" aria-label="화면 고르기">
+      <button class="tab on" id="tabToday" role="tab" aria-selected="true" aria-controls="panel-today" data-tab="today">
+        <span class="tab-ico" aria-hidden="true">🏠</span><span class="tab-txt">오늘 · 등원</span>
+        <span class="tab-badge" id="tabBadgeToday">0/8</span>
+      </button>
+      <button class="tab" id="tabSchedule" role="tab" aria-selected="false" aria-controls="panel-schedule" data-tab="schedule">
+        <span class="tab-ico" aria-hidden="true">📅</span><span class="tab-txt">가족 일정</span>
+        <span class="tab-badge" id="tabBadgeSchedule">0</span>
+      </button>
+      <button class="tab" id="tabStudy" role="tab" aria-selected="false" aria-controls="panel-study" data-tab="study">
+        <span class="tab-ico" aria-hidden="true">📚</span><span class="tab-txt">학습 체크리스트</span>
+        <span class="tab-badge" id="tabBadgeStudy">0/9</span>
+      </button>
+    </nav>
+    <button type="button" class="sync-btn" id="syncBtn" title="핸드폰·태블릿 연동 설정">☁️ 기기 연동</button>
+  </div>
 
   <main class="panels">
 
@@ -1348,6 +1394,41 @@ h1,h2,h3{margin:0;font-weight:400;}
     </div>
 
     <button type="button" class="btn danger" id="itemDelete" hidden>🗑 이 항목 지우기</button>
+  </div>
+</div>
+
+<!-- ===== 기기 연동 시트 (GitHub 비공개 저장소) ===== -->
+<div class="overlay" id="syncOverlay" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="syncFormTitle">
+    <h2 id="syncFormTitle">☁️ 핸드폰 · 태블릿 연동</h2>
+    <div class="sub">GitHub 비공개 저장소에 안전하게 저장해서 기기끼리 맞춰 줘요</div>
+
+    <div class="sync-box" id="syncStatusBox">
+      <b>상태:</b> <span id="syncStatusText">아직 연결되지 않았어요</span>
+      <div class="sync-msg" id="syncMsg"></div>
+    </div>
+
+    <div class="field">
+      <label for="syncRepo">비공개 저장소 이름</label>
+      <input type="text" id="syncRepo" value="ji6244203-sketch/family-dashboard-data" placeholder="아이디/저장소이름" autocomplete="off" />
+    </div>
+
+    <div class="field">
+      <label for="syncToken">전용 토큰 (이 기기에만 저장돼요)</label>
+      <input type="password" id="syncToken" placeholder="github_pat_... 로 시작하는 토큰 붙여넣기" autocomplete="off" />
+    </div>
+
+    <div class="sync-actions" id="syncExtraActions" hidden>
+      <button type="button" class="btn" id="syncPullBtn">🔄 지금 불러오기</button>
+      <button type="button" class="btn" id="syncCopyLinkBtn">🔗 다른 기기용 링크 복사</button>
+    </div>
+
+    <div class="sheet-foot">
+      <button type="button" class="btn cancel" id="syncClose">닫기</button>
+      <button type="button" class="btn save" id="syncSaveBtn">연동 저장</button>
+    </div>
+
+    <button type="button" class="btn danger" id="syncDisconnectBtn" hidden>연동 끊기 (이 기기에서 토큰 삭제)</button>
   </div>
 </div>
 
@@ -1579,9 +1660,13 @@ function normalizeDoneOn(v) {
   return map;
 }
 
-function loadState() {
-  let raw = null;
-  try { raw = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { raw = null; }
+function loadState(sourceObj) {
+  let raw = sourceObj || null;
+  if (!raw) {
+    try { raw = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { raw = null; }
+  } else {
+    try { raw = JSON.parse(JSON.stringify(raw)); } catch (e) { raw = null; }
+  }
   if (!raw || typeof raw !== 'object') return freshState();
 
   // 예전/깨진 저장값 보정
@@ -1667,11 +1752,12 @@ let S = loadState();
 try {
   const stored = JSON.parse(localStorage.getItem(KEY) || 'null');
   if (!stored || stored.v !== STATE_VERSION || stored.clVersion !== CL_VERSION
-      || stored.schedVersion !== SCHED_VERSION || stored.learnVersion !== LEARN_VERSION) save();
-} catch (e) { save(); }
+      || stored.schedVersion !== SCHED_VERSION || stored.learnVersion !== LEARN_VERSION) save(false);
+} catch (e) { save(false); }
 
-function save() {
+function save(push = true) {
   try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* 저장 실패는 조용히 */ }
+  if (push && typeof scheduleSyncPush === 'function') scheduleSyncPush();
 }
 
 /** 날짜가 바뀌면: 등원 체크 초기화 · 날짜 없는 일정 보정 · 오래된 완료 표시 정리
@@ -2638,7 +2724,7 @@ function bind() {
 
   // Escape 로 열린 시트 닫기
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { closeSheet(); closeItemSheet(); }
+    if (e.key === 'Escape') { closeSheet(); closeItemSheet(); closeSyncSheet(); }
   });
 
   // 화면 복귀 시 갱신
@@ -2648,12 +2734,303 @@ function bind() {
       renderCountdown();
       if (rollover()) renderAll();
       loadWeather();
+      syncPull(true);
     }
   });
 }
 
 /* ============================================================
-   13. 시작
+   13. GitHub 비공개 저장소 기기 간 동기화
+   ============================================================ */
+const SYNC_KEY = 'family-dashboard.sync.v1';
+const DEFAULT_SYNC_REPO = 'ji6244203-sketch/family-dashboard-data';
+const SYNC_FILE = 'data.json';
+
+let syncCfg = loadSyncCfg();
+let remoteSha = null;
+let syncPushTimer = null;
+let syncBusy = false;
+
+function loadSyncCfg() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(SYNC_KEY) || 'null');
+    if (raw && typeof raw === 'object' && typeof raw.token === 'string' && raw.token.trim()) {
+      return {
+        repo: (raw.repo || DEFAULT_SYNC_REPO).trim(),
+        token: raw.token.trim()
+      };
+    }
+  } catch (e) {}
+  return { repo: DEFAULT_SYNC_REPO, token: '' };
+}
+
+function saveSyncCfg() {
+  if (syncCfg.token) {
+    try { localStorage.setItem(SYNC_KEY, JSON.stringify(syncCfg)); } catch (e) {}
+  } else {
+    try { localStorage.removeItem(SYNC_KEY); } catch (e) {}
+  }
+}
+
+function utf8ToB64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+
+function b64ToUtf8(b64) {
+  const clean = b64.replace(/\s+/g, '');
+  const bin = atob(clean);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
+function setSyncUI(state, text, msg, msgKind) {
+  const btn = $('syncBtn');
+  if (btn) {
+    btn.classList.remove('is-on', 'is-busy', 'is-err');
+    if (state === 'on') { btn.classList.add('is-on'); btn.textContent = '☁️ 연동됨'; }
+    else if (state === 'busy') { btn.classList.add('is-busy'); btn.textContent = '🔄 동기화 중'; }
+    else if (state === 'err') { btn.classList.add('is-err'); btn.textContent = '⚠️ 연동 확인'; }
+    else { btn.textContent = '☁️ 기기 연동'; }
+  }
+  const st = $('syncStatusText');
+  if (st && text) st.textContent = text;
+  const m = $('syncMsg');
+  if (m && msg !== undefined) {
+    m.textContent = msg || '';
+    m.className = 'sync-msg' + (msgKind ? ' ' + msgKind : '');
+  }
+}
+
+function syncHeaders() {
+  return {
+    'Authorization': 'Bearer ' + syncCfg.token,
+    'Accept': 'application/vnd.github+json',
+    'Content-Type': 'application/json',
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
+}
+
+function syncUrl() {
+  return `https://api.github.com/repos/${syncCfg.repo}/contents/${SYNC_FILE}`;
+}
+
+function formatSyncTime() {
+  return new Date().toLocaleTimeString('ko-KR', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false });
+}
+
+async function syncPull(silent = false) {
+  if (!syncCfg.token || !syncCfg.repo) {
+    setSyncUI('off', '아직 연결되지 않았어요');
+    return false;
+  }
+  if (syncBusy) return false;
+  syncBusy = true;
+  if (!silent) setSyncUI('busy', '불러오는 중…', '');
+  try {
+    const res = await fetch(syncUrl() + '?t=' + Date.now(), {
+      method: 'GET',
+      headers: syncHeaders(),
+      cache: 'no-store'
+    });
+    if (res.status === 404) {
+      // 저장소가 있는지 vs 파일만 없는지 확인
+      const repoRes = await fetch(`https://api.github.com/repos/${syncCfg.repo}`, {
+        method: 'GET',
+        headers: syncHeaders(),
+        cache: 'no-store'
+      });
+      if (repoRes.status === 404) {
+        setSyncUI('err', '저장소를 찾지 못했어요', `${syncCfg.repo} 저장소가 만들어져 있는지 확인해 주세요`, 'err');
+        return false;
+      }
+      if (!repoRes.ok) {
+        setSyncUI('err', '연결 오류 (' + repoRes.status + ')', '토큰 권한(Contents: Read and write)을 확인해 주세요', 'err');
+        return false;
+      }
+      // 저장소는 있고 data.json만 없는 첫 연결 → 현재 기기 데이터로 초기화
+      syncBusy = false;
+      return await syncPush(true);
+    }
+    if (res.status === 401 || res.status === 403) {
+      setSyncUI('err', '토큰 권한 확인 필요', '토큰이 올바른지, Contents 읽기/쓰기 권한이 있는지 확인해 주세요', 'err');
+      return false;
+    }
+    if (!res.ok) {
+      setSyncUI('err', '불러오기 실패 (' + res.status + ')', '잠시 뒤 다시 시도해 주세요', 'err');
+      return false;
+    }
+    const data = await res.json();
+    const changed = data.sha !== remoteSha;
+    remoteSha = data.sha;
+    if (changed && data.content) {
+      const parsed = JSON.parse(b64ToUtf8(data.content));
+      S = loadState(parsed);
+      rollover();
+      save(false);
+      renderAll();
+    }
+    setSyncUI('on', `연동됨 (${syncCfg.repo})`, `최근 확인 ${formatSyncTime()}`, 'ok');
+    return true;
+  } catch (e) {
+    setSyncUI('err', '네트워크 오류', '인터넷 연결을 확인해 주세요', 'err');
+    return false;
+  } finally {
+    syncBusy = false;
+  }
+}
+
+async function syncPush(isInit = false, retry = 0) {
+  if (!syncCfg.token || !syncCfg.repo) return false;
+  if (syncBusy && !isInit && retry === 0) {
+    scheduleSyncPush();
+    return false;
+  }
+  syncBusy = true;
+  setSyncUI('busy', '저장하는 중…');
+  try {
+    const body = {
+      message: isInit ? 'Initialize family dashboard data' : 'Update family dashboard data',
+      content: utf8ToB64(JSON.stringify(S))
+    };
+    if (remoteSha) body.sha = remoteSha;
+
+    const res = await fetch(syncUrl(), {
+      method: 'PUT',
+      headers: syncHeaders(),
+      body: JSON.stringify(body)
+    });
+    if ((res.status === 409 || res.status === 422) && retry < 1) {
+      // 다른 기기가 먼저 저장해서 SHA가 바뀐 경우 최신 SHA를 받아 재시도
+      const cur = await fetch(syncUrl() + '?t=' + Date.now(), {
+        method: 'GET',
+        headers: syncHeaders(),
+        cache: 'no-store'
+      });
+      if (cur.ok) {
+        const curJson = await cur.json();
+        remoteSha = curJson.sha;
+        syncBusy = false;
+        return await syncPush(false, retry + 1);
+      }
+    }
+    if (!res.ok) {
+      setSyncUI('err', '저장 실패 (' + res.status + ')', '토큰 권한(Contents: Read and write)을 확인해 주세요', 'err');
+      return false;
+    }
+    const saved = await res.json();
+    if (saved && saved.content && saved.content.sha) remoteSha = saved.content.sha;
+    setSyncUI('on', `연동됨 (${syncCfg.repo})`, `방금 저장됨 (${formatSyncTime()})`, 'ok');
+    return true;
+  } catch (e) {
+    setSyncUI('err', '저장 중 네트워크 오류', '변경 내용은 이 기기에 임시 보관됐어요', 'err');
+    return false;
+  } finally {
+    syncBusy = false;
+  }
+}
+
+function scheduleSyncPush() {
+  if (!syncCfg.token) return;
+  clearTimeout(syncPushTimer);
+  syncPushTimer = setTimeout(() => { syncPush(false); }, 450);
+}
+
+function applyHashSync() {
+  const h = location.hash || '';
+  if (!h.startsWith('#sync=')) return false;
+  try {
+    const payload = JSON.parse(b64ToUtf8(decodeURIComponent(h.slice(6))));
+    if (payload && payload.token) {
+      syncCfg = {
+        repo: (payload.repo || DEFAULT_SYNC_REPO).trim(),
+        token: String(payload.token).trim()
+      };
+      remoteSha = null;
+      saveSyncCfg();
+      history.replaceState(null, '', location.pathname + location.search);
+      toast('연동 설정을 불러왔어요! 동기화 중…');
+      return true;
+    }
+  } catch (e) {}
+  return false;
+}
+
+function openSyncSheet() {
+  $('syncRepo').value = syncCfg.repo || DEFAULT_SYNC_REPO;
+  $('syncToken').value = syncCfg.token || '';
+  $('syncExtraActions').hidden = !syncCfg.token;
+  $('syncDisconnectBtn').hidden = !syncCfg.token;
+  if (syncCfg.token) {
+    setSyncUI('on', `연동됨 (${syncCfg.repo})`, $('syncMsg').textContent || '핸드폰·태블릿이 같은 데이터를 씁니다', 'ok');
+  } else {
+    setSyncUI('off', '아직 연결되지 않았어요', '');
+  }
+  $('syncOverlay').hidden = false;
+}
+
+function closeSyncSheet() {
+  $('syncOverlay').hidden = true;
+}
+
+function bindSync() {
+  $('syncBtn').addEventListener('click', openSyncSheet);
+  $('syncClose').addEventListener('click', closeSyncSheet);
+  $('syncOverlay').addEventListener('click', (e) => { if (e.target === $('syncOverlay')) closeSyncSheet(); });
+
+  $('syncSaveBtn').addEventListener('click', async () => {
+    const repo = $('syncRepo').value.trim() || DEFAULT_SYNC_REPO;
+    const token = $('syncToken').value.trim();
+    if (!token) {
+      setSyncUI('err', '토큰을 입력해 주세요', 'github_pat_... 로 시작하는 토큰이 필요해요', 'err');
+      $('syncToken').focus();
+      return;
+    }
+    syncCfg = { repo, token };
+    remoteSha = null;
+    saveSyncCfg();
+    const ok = await syncPull(false);
+    $('syncExtraActions').hidden = !ok;
+    $('syncDisconnectBtn').hidden = !ok;
+    if (ok) toast('기기 연동이 완료됐어요 ☁️');
+  });
+
+  $('syncPullBtn').addEventListener('click', async () => {
+    const ok = await syncPull(false);
+    if (ok) toast('최신 일정으로 맞췄어요');
+  });
+
+  $('syncCopyLinkBtn').addEventListener('click', async () => {
+    if (!syncCfg.token) return;
+    const encoded = encodeURIComponent(utf8ToB64(JSON.stringify(syncCfg)));
+    const url = location.origin + location.pathname + '#sync=' + encoded;
+    try {
+      await navigator.clipboard.writeText(url);
+      setSyncUI('on', `연동됨 (${syncCfg.repo})`, '다른 기기에서 이 링크를 열면 바로 연결돼요!', 'ok');
+      toast('연동 링크를 복사했어요 🔗');
+    } catch (e) {
+      prompt('아래 링크를 복사해서 다른 기기에서 열어 주세요', url);
+    }
+  });
+
+  $('syncDisconnectBtn').addEventListener('click', () => {
+    clearTimeout(syncPushTimer);
+    syncCfg = { repo: DEFAULT_SYNC_REPO, token: '' };
+    remoteSha = null;
+    saveSyncCfg();
+    $('syncToken').value = '';
+    $('syncExtraActions').hidden = true;
+    $('syncDisconnectBtn').hidden = true;
+    setSyncUI('off', '연동이 해제됐어요', '이제 이 기기에만 저장돼요');
+    toast('이 기기의 연동을 끊었어요');
+  });
+}
+
+/* ============================================================
+   14. 시작
    ============================================================ */
 function renderAll() {
   renderChecklist();
@@ -2663,12 +3040,20 @@ function renderAll() {
 }
 
 function boot() {
+  applyHashSync();
   rollover();
   renderClock();
   renderAll();
   initMemo();
   bind();
+  bindSync();
   loadWeather();
+
+  if (syncCfg.token) {
+    syncPull(false);
+  } else {
+    setSyncUI('off', '아직 연결되지 않았어요');
+  }
 
   setInterval(() => { renderClock(); renderCountdown(); }, 1000);
   setInterval(() => {
@@ -2679,6 +3064,9 @@ function boot() {
       toast('날이 바뀌어서 오늘 준비를 새로 시작해요');
     }
   }, 30 * 1000);
+  setInterval(() => {
+    if (syncCfg.token && document.visibilityState === 'visible') syncPull(true);
+  }, 15 * 1000);
 }
 
 boot();
