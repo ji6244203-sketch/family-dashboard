@@ -224,10 +224,10 @@ h1,h2,h3{margin:0;font-weight:400;}
 }
 .cd-bar{
   position:relative;
-  height:clamp(20px,2.9vh,28px);
+  height:clamp(22px,3.2vh,30px);
   border-radius:999px;
-  background:var(--pink-1);
-  box-shadow:inset 0 2px 7px rgba(206,110,155,.18);
+  background:#FBD9E9;
+  box-shadow:inset 0 2px 7px rgba(206,110,155,.22);
   flex:0 0 auto;
 }
 .cd-bar > .fill{
@@ -258,7 +258,9 @@ h1,h2,h3{margin:0;font-weight:400;}
 .cd-bar.is-urgent{animation:cdPulse 2.4s ease-in-out infinite;}
 @keyframes cdPulse{0%,100%{box-shadow:inset 0 2px 7px rgba(206,110,155,.18);}50%{box-shadow:inset 0 2px 7px rgba(206,110,155,.18),0 0 0 4px rgba(255,169,206,.35);}}
 .cd-bar.is-done > .fill{background:linear-gradient(90deg,#FFD9A8 0%,#FFB0D0 55%,#E2C8FA 100%);}
-.cd-bar.is-over > .fill{background:linear-gradient(90deg,#E8DCF6,#DCCEEE);box-shadow:none;}
+.cd-bar.is-over{background:#F3E7F6;box-shadow:inset 0 2px 7px rgba(140,110,170,.16);}
+.cd-bar.is-over > .fill{background:transparent;box-shadow:none;}
+.cd-bar.is-over .cd-mark{opacity:0;}
 .cd-sub{
   font-size:clamp(13px,1.85vh,16px);
   color:var(--ink-2);
@@ -440,7 +442,7 @@ h1,h2,h3{margin:0;font-weight:400;}
   display:flex;gap:2px;
 }
 .chk-edit,.chk-del{
-  width:clamp(26px,3.1vh,30px);height:clamp(26px,3.1vh,30px);
+  width:clamp(30px,3.7vh,34px);height:clamp(30px,3.7vh,34px);
   border-radius:50%;
   display:grid;place-items:center;
   line-height:1;
@@ -475,7 +477,7 @@ h1,h2,h3{margin:0;font-weight:400;}
 }
 .mini-list{
   list-style:none;margin:0;padding:1px 0;
-  display:flex;flex-direction:column;gap:clamp(4px,.7vh,8px);
+  display:flex;flex-direction:column;gap:clamp(3px,.55vh,6px);
   flex:1 1 auto;min-height:0;overflow-y:auto;
   overscroll-behavior:contain;
   scrollbar-width:thin;scrollbar-color:var(--pink-2) transparent;
@@ -488,7 +490,7 @@ h1,h2,h3{margin:0;font-weight:400;}
   border:1.5px solid var(--line);
   background:#FFFCFE;
   transition:background .18s,border-color .18s;
-  min-height:clamp(38px,5.4vh,48px);
+  min-height:clamp(30px,4.35vh,42px);
 }
 .mitem:hover{border-color:var(--pink-2);}
 .mitem-main{
@@ -550,6 +552,12 @@ h1,h2,h3{margin:0;font-weight:400;}
   display:flex;align-items:center;gap:8px;flex-wrap:wrap;
   flex:0 0 auto;
 }
+.hint-line{
+  flex:0 0 auto;
+  font-size:clamp(11px,1.65vh,14px);
+  color:var(--muted);
+  padding-left:4px;
+}
 .study-sub .pill{
   background:var(--lilac-1);
   color:var(--lilac-ink);
@@ -580,8 +588,8 @@ h1,h2,h3{margin:0;font-weight:400;}
   border:1.5px solid var(--line);
   background:#FFFCFE;
   transition:background .18s,border-color .18s;
-  min-height:clamp(44px,6vh,54px);
-  padding-right:clamp(52px,6.4vw,64px);
+  min-height:clamp(46px,6.2vh,58px);
+  padding-right:clamp(58px,6.8vw,70px);
 }
 .sitem:hover{border-color:var(--pink-2);}
 .sitem.done{background:linear-gradient(180deg,#FFF4F9,#FFEDF5);border-color:var(--pink-2);}
@@ -597,7 +605,7 @@ h1,h2,h3{margin:0;font-weight:400;}
   display:flex;gap:2px;
 }
 .s-edit,.s-del{
-  width:clamp(24px,3vh,28px);height:clamp(24px,3vh,28px);
+  width:clamp(28px,3.4vh,32px);height:clamp(28px,3.4vh,32px);
   border-radius:50%;
   display:grid;place-items:center;
   color:#C9B4BF;font-size:clamp(11px,1.6vh,14px);line-height:1;
@@ -1048,6 +1056,8 @@ h1,h2,h3{margin:0;font-weight:400;}
 
           <ul class="list" id="studyList" aria-live="polite"></ul>
 
+          <div class="hint-line">요일마다 항목이 따로 있고, 체크는 그날 날짜로 저장돼요 🎀</div>
+
           <div class="card-foot">
             <button class="btn solid grow" id="studyAddBtn">＋ 이 요일 항목 추가</button>
             <button class="btn" id="studyReset">이 날 초기화</button>
@@ -1233,7 +1243,7 @@ function iconFor(text) {
   const hit = ICON_HINTS.find(([re]) => re.test(t));
   return hit ? hit[1] : FALLBACK_ICON;
 }
-const EMOJI_CHK = ['🚽','🥣','💊','🪥','🧼','🧴','👕','🎒','🥤','🍪','😷','📓','🧢','☂️','🧦','🪮','🧸','🍽️','🛁','🪞','👟','🍼','🧺','💧','🍎','🩹','📚','🎵'];
+const EMOJI_CHK = ['🚽','🥣','💊','🪥','🦷','🧼','🧴','👕','🎒','🥤','🍪','😷','📓','🧢','☂️','🧦','🪮','🧸','🍽️','🛁','🪞','👟','🍼','🧺','💧','🍎','🩹','📚','🎵'];
 const EMOJI_LEARN = ['🧩','📕','🌸','🦊','➕','🔢','🔷','📖','📚','✏️','🎨','🎹','🧮','🔤','🗣️','🎧','🖍️','📝','🧠','⭐','🌈','🎯'];
 
 const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast?latitude=35.8714&longitude=127.1293'
@@ -1485,7 +1495,8 @@ function renderCountdown() {
   const total = items.length;
   const allDone = total > 0 && done === total;
 
-  const pct = left <= 0 ? 0 : Math.min(1, left / WINDOW_SEC) * 100;
+  /* 모두 완료했을 때는 남은 시간과 상관없이 막대를 가득 채워 '다 됐다'를 보여 준다 */
+  const pct = allDone ? 100 : (left <= 0 ? 0 : Math.min(1, left / WINDOW_SEC) * 100);
 
   const fill = $('cdFill'), bar = $('cdBar'), mark = $('cdMark');
   if (!fill) return;
@@ -1497,16 +1508,20 @@ function renderCountdown() {
   bar.classList.toggle('is-over', left <= 0 && !allDone);
 
   const leftEl = $('cdLeft');
-  if (left > 0) {
+  if (allDone) {
+    leftEl.textContent = '오늘 준비 완료!';
+  } else if (left > 0) {
     leftEl.textContent = (left < 600
       ? Math.floor(left / 60) + '분 ' + (left % 60) + '초'
       : fmtLeft(left)) + ' 남음';
   } else {
-    leftEl.textContent = GOAL_LABEL + ' 지남';
+    leftEl.textContent = GOAL_LABEL + ' 지났어요';
   }
 
   let sub;
-  if (allDone) sub = '다 챙겼어요! 설, 오늘도 반짝반짝 💗';
+  if (allDone) sub = left > 0
+    ? GOAL_LABEL + '까지 ' + fmtLeft(left) + ' 남았어요 · 여유롭게 나설 수 있어요 💗'
+    : '다 챙겼어요! 설, 오늘도 반짝반짝 💗';
   else if (left <= 0) sub = total ? '조금 늦어도 괜찮아요 · 남은 항목 ' + (total - done) + '개' : '체크리스트에 항목을 만들어 보세요';
   else sub = '체크 ' + done + ' / ' + total + ' · 남은 준비 ' + (total - done) + '개';
   const subEl = $('cdSub');
@@ -1711,7 +1726,6 @@ function renderStudy() {
   else note = left + '개 남았어요';
   $('studySub').innerHTML = '<span>' + esc(dateLabel(dkey)) + '</span>'
     + (isToday ? '<span class="pill">오늘</span>' : '')
-    + '<span class="pill" style="background:var(--pink-1);color:var(--rose-ink);border-color:var(--pink-2)">' + esc(dayFull(studyDay)) + '</span>'
     + '<span>' + esc(note) + '</span>';
 
   const list = $('studyList');
