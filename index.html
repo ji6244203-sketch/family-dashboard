@@ -18,7 +18,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet" />
 <style>
 /* ============================================================
-   우리 가족 보드 — 거실 태블릿(1280×800)용 가족 대시보드
+   우리 가족 보드 — 아이패드 에어 3(1112×834) · 거실 태블릿용 가족 대시보드
    · 외부 빌드 없음, 단일 파일
    · 개인정보 없음 / 모든 기록은 이 기기의 localStorage 에만 저장
    · 날씨: Open-Meteo (전주)
@@ -50,9 +50,9 @@
   --ink-2:#7E6572;
   --muted:#AD98A3;
   --shadow:0 18px 34px -22px rgba(206,110,155,.45), 0 2px 8px rgba(206,110,155,.07);
-  --radius:26px;
-  --pad:clamp(12px,1.6vh,18px);
-  --gap:clamp(8px,1.2vh,14px);
+  --radius:24px;
+  --pad:clamp(10px,1.4vh,16px);
+  --gap:clamp(8px,1.1vh,13px);
 }
 
 *,*::before,*::after{box-sizing:border-box;}
@@ -995,10 +995,62 @@ h1,h2,h3{margin:0;font-weight:400;}
 }
 
 /* ---------- 화면 크기별 ---------- */
-@media (max-width:1180px){
-  #chkList{grid-template-columns:repeat(2,minmax(0,1fr));}
+/* 아이패드 에어 3 가로모드(1112×834, 사파리 UI 포함 1112×700~760) 최적화 */
+@media (orientation:landscape) and (min-width:960px) and (max-width:1200px){
+  .app{
+    padding:max(10px, env(safe-area-inset-top)) clamp(14px,1.6vw,20px) max(10px, env(safe-area-inset-bottom));
+    gap:clamp(7px,1vh,11px);
+  }
+  .top{
+    gap:clamp(12px,1.6vw,22px);
+    padding:clamp(9px,1.25vh,14px) clamp(14px,1.6vw,22px);
+  }
+  .time{font-size:clamp(38px,5.6vh,54px);}
+  .date{font-size:clamp(13px,1.9vh,17px);}
+  .cd-top{flex-wrap:nowrap;gap:8px;}
+  .cd-label{font-size:clamp(14px,2vh,18px);}
+  .cd-left{font-size:clamp(18px,2.7vh,25px);white-space:nowrap;}
+  .cd-bar{height:clamp(20px,2.8vh,26px);}
+  .cd-sub{font-size:clamp(12px,1.65vh,14px);}
+  .w-ico{font-size:clamp(26px,3.8vh,36px);}
+  .w-temp{font-size:clamp(28px,4.2vh,40px);}
+  .w-loc,.w-minmax{font-size:clamp(12px,1.75vh,15px);}
+  .w-ump{font-size:clamp(11px,1.6vh,14px);padding:2px 9px;}
+  .tabs{width:min(100%, 860px);padding:5px;}
+  .tab{min-height:clamp(38px,5.2vh,46px);font-size:clamp(14px,1.95vh,17px);}
+  .card-body{padding:clamp(10px,1.35vh,15px) clamp(12px,1.3vw,18px);gap:clamp(6px,.9vh,10px);}
+  .card-title,.day-title{font-size:clamp(17px,2.45vh,22px);}
+  .btn{min-height:44px;padding:0 15px;font-size:clamp(14px,1.85vh,16px);}
+  /* 등원 체크리스트: 아이패드 가로(1112px)에서 4열×2행 유지 */
+  #chkList{grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(7px,1vh,11px);}
+  .chk{min-height:clamp(62px,9vh,94px);}
+  .chk-ico{font-size:clamp(30px,5.2vh,48px);}
+  .chk-text{font-size:clamp(14px,2.15vh,19px);}
+  /* 가족 일정: 반반 카드 폭(~520px)에 맞춰 필터·달력·일정 균형 */
+  .sched-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.02fr);gap:10px;}
+  .cal-month{font-size:clamp(17px,2.5vh,23px);}
+  .cal-btn{min-width:34px;min-height:34px;padding:0 8px;font-size:14px;}
+  .cday{padding:clamp(2px,.45vh,5px) 2px;border-radius:11px;}
+  .cday .cn{font-size:clamp(13px,1.9vh,16px);min-width:clamp(20px,2.7vh,25px);min-height:clamp(20px,2.7vh,25px);}
+  .filters{gap:5px;}
+  .fchip{min-height:34px;padding:0 11px;font-size:clamp(12px,1.7vh,15px);}
+  .ev{padding:6px 9px;gap:7px;}
+  .ev-time{font-size:clamp(14px,2vh,18px);min-width:54px;padding:4px 6px;}
+  .ev-title{font-size:clamp(14px,2.05vh,18px);}
+  .ev-done{width:36px;height:36px;}
+  .ev-edit,.ev-del{width:32px;height:32px;}
+  /* 학습 체크리스트: 3열×3행이 스크롤 없이 한눈에 */
+  .day{min-width:44px;min-height:38px;padding:0 9px;font-size:clamp(14px,1.9vh,17px);}
+  #studyList{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:minmax(clamp(44px,5.8vh,54px),auto);gap:clamp(6px,.85vh,9px);}
+  .sitem{min-height:clamp(44px,5.8vh,54px);padding-right:60px;}
+  .s-text{font-size:clamp(13px,1.85vh,16px);}
+  /* 하단 한 줄 메모 */
+  .memo-bar{padding:clamp(7px,1vh,11px) clamp(12px,1.5vw,18px);}
+  .memo-label{font-size:clamp(14px,1.95vh,18px);}
+  .memo{font-size:clamp(15px,2.2vh,20px);min-height:36px;}
 }
-@media (max-width:1000px){
+@media (max-width:959px){
+  #chkList{grid-template-columns:repeat(2,minmax(0,1fr));}
   .top{grid-template-columns:auto 1fr;row-gap:10px;}
   .weather{grid-column:1 / -1;justify-content:flex-start;text-align:left;border-top:1px dashed var(--pink-2);padding-top:9px;}
   .w-meta{align-items:flex-start;}
@@ -1019,11 +1071,18 @@ h1,h2,h3{margin:0;font-weight:400;}
   .emoji-grid{grid-template-columns:repeat(6,1fr);}
 }
 @media (orientation:landscape) and (max-height:740px) and (min-width:960px){
-  #chkList{gap:5px;}
-  .chk{min-height:60px;}
-  .chk-ico{font-size:clamp(24px,4.4vh,36px);}
+  .app{gap:6px;padding-top:8px;padding-bottom:8px;}
+  .top{padding:8px 16px;}
+  .tab{min-height:38px;}
+  .card-body{padding:9px 14px;gap:6px;}
+  .btn{min-height:40px;}
+  #chkList{gap:6px;}
+  .chk{min-height:58px;}
+  .chk-ico{font-size:clamp(24px,4.4vh,38px);}
   .chk-text{font-size:clamp(13px,2vh,16px);}
-  .time{font-size:clamp(38px,6.4vh,56px);}
+  .time{font-size:clamp(36px,5.4vh,48px);}
+  .memo-bar{padding:6px 14px;}
+  .memo{min-height:32px;font-size:16px;}
 }
 </style>
 </head>
