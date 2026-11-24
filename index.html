@@ -921,7 +921,11 @@ h1,h2,h3{margin:0;font-weight:400;}
   min-height:50px;padding:0 18px;border-radius:999px;
   border:1.5px solid var(--line);background:#fff;
   font-size:16px;color:var(--ink-2);
+  transition:background .15s,border-color .15s,color .15s;
 }
+/* 여러 명을 함께 고르는 칩 — 고른 것은 체크 표시로도 구분 */
+.chips button.on::before{content:"✓";font-weight:700;margin-right:5px;font-size:14px;line-height:1;}
+.chips button:hover{background:var(--cream-1);border-color:var(--pink-2);}
 .chips button.on[data-who="전체"]{background:var(--cream-2);border-color:#F3CEDF;color:var(--ink);font-weight:700;}
 .chips button.on[data-who="설"]{background:var(--pink-1);border-color:var(--pink-2);color:var(--rose-ink);font-weight:700;}
 .chips button.on[data-who="엄마"]{background:var(--lilac-1);border-color:var(--lilac-2);color:var(--lilac-ink);font-weight:700;}
@@ -1234,14 +1238,15 @@ h1,h2,h3{margin:0;font-weight:400;}
     </div>
 
     <div class="field">
-      <label>누구 일정인가요?</label>
-      <div class="chips" id="evWho">
-        <button type="button" data-who="전체" class="on">전체</button>
-        <button type="button" data-who="설">설</button>
-        <button type="button" data-who="엄마">엄마</button>
-        <button type="button" data-who="아빠">아빠</button>
-        <button type="button" data-who="키키">키키</button>
+      <label>누구 일정인가요? <span class="hint">여러 명 고를 수 있어요</span></label>
+      <div class="chips" id="evWho" role="group" aria-label="일정 구성원 고르기, 여러 명 가능">
+        <button type="button" data-who="전체" class="on" aria-pressed="true">전체</button>
+        <button type="button" data-who="설" aria-pressed="false">설</button>
+        <button type="button" data-who="엄마" aria-pressed="false">엄마</button>
+        <button type="button" data-who="아빠" aria-pressed="false">아빠</button>
+        <button type="button" data-who="키키" aria-pressed="false">키키</button>
       </div>
+      <span class="hint hint-block" id="evWhoHint">가족 전체 일정이에요 · 한 사람만 고르려면 이름을 누르세요</span>
     </div>
 
     <div class="sheet-foot">
@@ -1335,7 +1340,30 @@ const DAYS = [
 ];
 const DAY_BY_SHORT = { Mon: 'mon', Tue: 'tue', Wed: 'wed', Thu: 'thu', Fri: 'fri', Sat: 'sat', Sun: 'sun' };
 const MEMBERS = ['전체', '설', '엄마', '아빠', '키키'];
+const PEOPLE = MEMBERS.slice(1);   // 실제 구성원 — 일정 하나에 여러 명이 들어갈 수 있다
 const WHO_KEY = { '전체': 'all', '설': 'seol', '엄마': 'mom', '아빠': 'dad', '키키': 'kiki' };
+
+/* 일정의 구성원(e.who)은 이름 배열이다. 예전 저장값(단일 문자열 '설' · '전체')도 그대로 읽는다.
+   빈 배열은 '전체'(네 명 모두)를 뜻하고, 네 명을 다 고른 것도 '전체'로 맞춘다. */
+function normalizeWho(v) {
+  const src = Array.isArray(v) ? v : (typeof v === 'string' && v ? [v] : []);
+  const picked = [];
+  src.forEach((x) => {
+    const name = (x === '이설' || x === '이설이') ? '설' : x;
+    if (PEOPLE.includes(name) && !picked.includes(name)) picked.push(name);
+  });
+  if (picked.length >= PEOPLE.length) return [];
+  return PEOPLE.filter((p) => picked.includes(p));   // 항상 가족 순서로
+}
+/** 그 일정이 실제로 해당하는 사람들 (전체면 네 명) */
+function whoPeople(e) {
+  return (Array.isArray(e.who) && e.who.length) ? e.who : PEOPLE;
+}
+function isAllWho(e) {
+  return !Array.isArray(e.who) || e.who.length === 0 || e.who.length >= PEOPLE.length;
+}
+function whoLabel(e) { return isAllWho(e) ? '전체' : e.who.join(' · '); }
+function whoKey(e) { return isAllWho(e) ? 'all' : (WHO_KEY[e.who[0]] || 'all'); }
 
 /* 등원 목표 시각 08:15 — 06:30 부터 08:15 까지를 한 칸(105분)으로 보고 바가 줄어든다 */
 const GOAL_LABEL = '08:15';
@@ -1529,7 +1557,7 @@ function loadState() {
       id: e.id || uid(),
       time: /^\d{2}:\d{2}$/.test(e.time) ? e.time : '09:00',
       title: renameChild(String(e.title)).slice(0, 40),
-      who: e.who === '이설' ? '설' : (MEMBERS.includes(e.who) ? e.who : '전체'),
+      who: normalizeWho(e.who),
       repeat: e.repeat === 'daily' ? 'daily' : 'once',
       date: e.repeat === 'daily' ? null : (e.date || todayKey()),
       doneOn: normalizeDoneOn(e.doneOn)
@@ -1540,7 +1568,7 @@ function loadState() {
   const schedVer = Number.isFinite(raw.schedVersion) ? raw.schedVersion : 1;
   if (schedVer < 2) {
     raw.schedule = raw.schedule.filter((e) => !OLD_DEFAULT_EVENTS.some((d) =>
-      e.title === d.title && e.time === d.time && e.who === d.who && e.repeat === d.repeat));
+      e.title === d.title && e.time === d.time && normalizeWho(e.who).join('|') === normalizeWho(d.who).join('|') && e.repeat === d.repeat));
   }
   raw.schedVersion = SCHED_VERSION;
 
@@ -1939,9 +1967,10 @@ function monthLabel(ym) {
   const [y, m] = ym.split('-').map(Number);
   return y + '년 ' + m + '월';
 }
-/** 구성원 필터 — '전체' 일정은 누구를 골라도 함께 보인다 */
+/** 구성원 필터 — '전체' 일정은 누구를 골라도, 여러 명 일정은 그중 한 명을 골라도 함께 보인다 */
 function passesFilter(e) {
-  return S.filter === '전체' || e.who === S.filter || e.who === '전체';
+  if (S.filter === '전체') return true;
+  return isAllWho(e) || whoPeople(e).includes(S.filter);
 }
 /** 그 날짜에 보이는 일정 (매일 반복 + 그날 하루) */
 function eventsOnDate(dateKey) {
@@ -1978,9 +2007,17 @@ function renderCalendar() {
     const evs = eventsOnDate(c.key).filter(passesFilter);
     const onceEvs = evs.filter((e) => e.repeat !== 'daily');
     const hasDaily = evs.length > onceEvs.length;
-    const dots = onceEvs.slice(0, 3).map((e) => '<i class="d-' + (WHO_KEY[e.who] || 'all') + '"></i>').join('')
-      + (hasDaily ? '<i class="ring" aria-hidden="true"></i>' : '');
-    const more = onceEvs.length > 3 ? '<span class="cmore">+' + (onceEvs.length - 3) + '</span>' : '';
+    /* 구성원이 여럿이면 색 점도 여럿 — 칸이 넘치지 않게 네 개까지 */
+    const dotKeys = [];
+    onceEvs.forEach((e) => {
+      if (isAllWho(e)) dotKeys.push('all');
+      else whoPeople(e).forEach((w) => dotKeys.push(WHO_KEY[w] || 'all'));
+    });
+    const MAX_DOTS = 4;
+    const hiddenDots = Math.max(0, dotKeys.length - MAX_DOTS);
+    const dots = dotKeys.slice(0, MAX_DOTS).map((k) => '<i class="d-' + k + '"></i>').join('')
+      + (hasDaily ? '<i class="ring" aria-hidden="true"></i>' : '')
+      + (hiddenDots ? '<span class="cmore">+' + hiddenDots + '</span>' : '');
     const cls = ['cday'];
     if (c.out) cls.push('out');
     if (c.dow === 0) cls.push('sun');
@@ -1991,7 +2028,7 @@ function renderCalendar() {
     return '<button class="' + cls.join(' ') + '" type="button" data-date="' + c.key + '"'
       + ' aria-pressed="' + (c.key === selDate ? 'true' : 'false') + '" aria-label="' + esc(label) + '">'
       + '<span class="cn">' + c.day + '</span>'
-      + '<span class="cdots">' + dots + more + '</span>'
+      + '<span class="cdots">' + dots + '</span>'
       + '</button>';
   }).join('');
 }
@@ -2026,14 +2063,17 @@ function renderSchedule() {
 
   list.innerHTML = rows.map((e) => {
     const done = isDone(e, selDate);
-    const whoCls = WHO_KEY[e.who] || 'all';
+    const whoCls = whoKey(e);
+    const whoTags = isAllWho(e)
+      ? '<span class="tag t-all">전체</span>'
+      : whoPeople(e).map((w) => '<span class="tag t-' + (WHO_KEY[w] || 'all') + '">' + esc(w) + '</span>').join('');
     return `
       <li class="ev who-${whoCls}${done ? ' done' : ''}" data-id="${esc(e.id)}">
         <button class="ev-time" type="button" data-act="edit-ev" aria-label="${esc(e.time)} ${esc(e.title)} 일정 수정">${esc(e.time)}</button>
-        <button class="ev-main" type="button" data-act="edit-ev" aria-label="${esc(e.title)} 일정 수정">
+        <button class="ev-main" type="button" data-act="edit-ev" aria-label="${esc(e.title)} · ${esc(whoLabel(e))} 일정 수정">
           <span class="ev-title">${esc(e.title)}</span>
           <span class="ev-tags">
-            <span class="tag t-${whoCls}">${esc(e.who)}</span>
+            ${whoTags}
             ${e.repeat === 'daily' ? '<span class="tag t-rep">매일</span>' : ''}
           </span>
         </button>
@@ -2092,11 +2132,20 @@ function deleteEv(id) {
 /* --- 일정 추가 / 수정 시트 (한 시트를 두 모드로) --- */
 let sheetMode = 'add';   // 'add' | 'edit'
 let editId = null;
-let draftWho = '전체';
+let draftWho = [];        // 고른 구성원 이름들 — 비어 있으면 '전체'
 let draftRep = 'once';
 
 function syncDraftChips() {
-  document.querySelectorAll('#evWho button').forEach((b) => b.classList.toggle('on', b.dataset.who === draftWho));
+  const all = draftWho.length === 0 || draftWho.length >= PEOPLE.length;
+  document.querySelectorAll('#evWho button').forEach((b) => {
+    const on = b.dataset.who === '전체' ? all : (!all && draftWho.includes(b.dataset.who));
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+  const whoHint = $('evWhoHint');
+  if (whoHint) whoHint.textContent = all
+    ? '가족 전체 일정이에요 · 한 사람만 고르려면 이름을 누르세요'
+    : '고른 구성원: ' + draftWho.join(' · ') + ' · 여러 명 함께 고를 수 있어요';
   document.querySelectorAll('#evRepeat button').forEach((b) => b.classList.toggle('on', b.dataset.rep === draftRep));
   const daily = draftRep === 'daily';
   $('evDate').disabled = daily;
@@ -2119,14 +2168,14 @@ function openSheet(ev) {
     $('evTime').value = ev.time;
     $('evDate').value = ev.date || selDate;
     $('evTitle').value = ev.title;
-    draftWho = ev.who;
+    draftWho = normalizeWho(ev.who).slice();
     draftRep = ev.repeat;
   } else {
     const { hour } = nowParts();
     $('evTime').value = String(Math.min(23, hour + 1)).padStart(2, '0') + ':00';
     $('evDate').value = selDate;
     $('evTitle').value = '';
-    draftWho = '전체';
+    draftWho = [];
     draftRep = 'once';
   }
   syncDraftChips();
@@ -2141,7 +2190,9 @@ function closeSheet() {
 
 /** 지금 건 일정이 화면에서 사라지지 않도록(필터에 가리지 않도록) 필터를 풀어 준다 */
 function keepVisible(who) {
-  if (S.filter !== '전체' && who !== S.filter && who !== '전체') {
+  const list = Array.isArray(who) ? who : normalizeWho(who);
+  const all = list.length === 0 || list.length >= PEOPLE.length;
+  if (S.filter !== '전체' && !all && !list.includes(S.filter)) {
     S.filter = '전체';
     save();
   }
@@ -2167,7 +2218,7 @@ function saveEvent() {
     const dateChanged = (e.date || null) !== (draftRep === 'daily' ? null : dateVal);
     e.time = time;
     e.title = title.slice(0, 40);
-    e.who = draftWho;
+    e.who = normalizeWho(draftWho);
     e.repeat = draftRep;
     e.date = draftRep === 'daily' ? null : dateVal;
     if (repChanged || dateChanged) e.doneOn = {};
@@ -2193,7 +2244,7 @@ function saveEvent() {
     id: uid(),
     time,
     title: title.slice(0, 40),
-    who: draftWho,
+    who: normalizeWho(draftWho),
     repeat: draftRep,
     date: draftRep === 'daily' ? null : dateVal,
     doneOn: {}
@@ -2505,8 +2556,18 @@ function bind() {
   $('evWho').addEventListener('click', (e) => {
     const b = e.target.closest('button[data-who]');
     if (!b) return;
-    draftWho = b.dataset.who;
-    document.querySelectorAll('#evWho button').forEach((x) => x.classList.toggle('on', x === b));
+    const w = b.dataset.who;
+    if (w === '전체') {
+      draftWho = [];                                  // 전체 = 네 명 모두
+    } else if (draftWho.length === 0) {
+      draftWho = [w];                                 // 전체 상태에서 한 명을 누르면 그 한 명만
+    } else if (draftWho.includes(w)) {
+      draftWho = draftWho.filter((x) => x !== w);      // 마지막 한 명까지 끄면 다시 전체
+    } else {
+      draftWho = PEOPLE.filter((p) => p === w || draftWho.includes(p));
+      if (draftWho.length >= PEOPLE.length) draftWho = [];   // 네 명 다 고르면 전체와 같다
+    }
+    syncDraftChips();
   });
   $('evRepeat').addEventListener('click', (e) => {
     const b = e.target.closest('button[data-rep]');
