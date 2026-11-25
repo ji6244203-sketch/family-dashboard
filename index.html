@@ -1159,7 +1159,7 @@ h1,h2,h3{margin:0;font-weight:400;}
   --card:#FFFCFE;
   --ink:#4A2545;
   --ink-2:#6E4864;
-  --muted:#A98CA0;
+  --muted:#9C7E93;
   --shadow:0 24px 44px -30px rgba(190,60,130,.45), 0 3px 10px rgba(190,60,130,.05);
   --radius:26px;
 }
@@ -1367,6 +1367,12 @@ body::before{
 @keyframes gemPop{0%{transform:scale(.72);}60%{transform:scale(1.12);}100%{transform:scale(1);}}
 .chk-box .tick{color:#fff;text-shadow:0 1px 0 rgba(190,40,110,.35);}
 .chk.done .chk-ico{filter:drop-shadow(0 4px 7px rgba(255,92,158,.3));}
+
+/* 완료된 항목도 읽히도록: 회색을 진한 플럼 톤으로 */
+.chk.done .chk-text{color:#8B5F7E;}
+.sitem.done .s-text{color:#8B5F7E;}
+.ev.done .ev-title{color:#8B5F7E;}
+.chk.done .chk-text,.sitem.done .s-text,.ev.done .ev-title{text-decoration-color:#D9B7CC;}
 
 /* ---------- 학습 항목 ---------- */
 .sitem{
