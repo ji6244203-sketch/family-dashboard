@@ -1198,17 +1198,20 @@ body::before{
   border-radius:28px;
   background:
     radial-gradient(120% 62% at 50% -18%, #FFFFFF 0%, rgba(255,255,255,0) 62%),
-    linear-gradient(178deg,#FFFFFF 0%,#FFFAFD 46%,#FFF3FA 100%);
+    linear-gradient(178deg,#FFFFFF 0%,#FFFAFE 42%,#FFF0F8 100%);
   box-shadow:
     0 24px 42px -30px rgba(190,60,130,.5),
     0 2px 6px rgba(190,60,130,.05),
+    inset 0 0 0 3px rgba(255,247,252,.9),
     inset 0 1px 0 #FFFFFF,
     inset 0 -10px 20px -18px rgba(255,92,158,.5);
 }
 .card-title{color:#4A2545;}
 .card-title::after{
-  content:"✦";font-size:.6em;color:#FFC94D;line-height:1;
-  transform:translateY(-.34em);
+  content:"";display:inline-block;flex:0 0 auto;
+  width:.62em;height:.62em;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.6l2.6 6.6 6.6 2.6-6.6 2.6-2.6 6.6-2.6-6.6L3.4 10.8l6.6-2.6z' fill='%23FFC94D'/%3E%3C/svg%3E") center/contain no-repeat;
+  transform:translateY(-.28em);
 }
 
 /* ---------- 상단 헤더 ---------- */
@@ -1237,9 +1240,9 @@ body::before{
 
 .hero-fairy{
   flex:0 0 auto;align-self:center;
-  width:clamp(52px,7.4vh,78px);
-  margin-left:clamp(-4px,-.3vw,0px);
-  filter:drop-shadow(0 10px 16px rgba(255,92,158,.26));
+  width:clamp(58px,9.6vh,92px);
+  margin-left:clamp(-6px,-.4vw,0px);
+  filter:drop-shadow(0 10px 16px rgba(255,92,158,.28));
 }
 .hero-fairy svg{display:block;width:100%;height:auto;overflow:visible;}
 .fairy-wings{transform-box:fill-box;transform-origin:50% 72%;animation:wingFlap 2.8s ease-in-out infinite;}
@@ -1271,6 +1274,7 @@ body::before{
 }
 @keyframes shineSweep{from{background-position:180% 0;}to{background-position:-90% 0;}}
 .cd-bar.is-done > .fill{background:linear-gradient(90deg,#FFE1A8 0%,#FFB6D5 52%,#D7C0FB 100%);}
+.cd-bar.is-over{background:linear-gradient(180deg,#FCEFF6,#F6E8F1);box-shadow:inset 0 2px 7px rgba(170,90,130,.14);}
 .cd-mark{filter:drop-shadow(0 3px 5px rgba(190,60,130,.35));animation:markFloat 2.6s ease-in-out infinite;}
 @keyframes markFloat{0%,100%{transform:translate(-50%,-50%);}50%{transform:translate(-50%,-58%);}}
 
@@ -1287,7 +1291,10 @@ body::before{
   background:linear-gradient(160deg,#FF9AC8 0%,#FF5C9E 100%);
   box-shadow:0 14px 24px -14px rgba(255,92,158,.9), inset 0 1px 0 rgba(255,255,255,.58);
 }
-.tab.on::after{content:"✦";font-size:.7em;line-height:1;opacity:.9;}
+.tab.on::after{
+  content:"";flex:0 0 auto;width:.58em;height:.58em;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.6l2.6 6.6 6.6 2.6-6.6 2.6-2.6 6.6-2.6-6.6L3.4 10.8l6.6-2.6z' fill='%23FFF0F7'/%3E%3C/svg%3E") center/contain no-repeat;
+}
 .tab-badge{background:rgba(255,255,255,.3);}
 .tab:not(.on) .tab-badge{
   background:linear-gradient(180deg,#fff,#FFE8F2);
@@ -1325,7 +1332,7 @@ body::before{
 .chk{
   border-radius:22px;
   border:1.5px solid #FFDDEC;
-  background:linear-gradient(180deg,#FFFFFF,#FFF6FB);
+  background:linear-gradient(180deg,#FFFFFF 0%,#FFF7FC 70%,#FFEFF8 100%);
   box-shadow:0 10px 20px -18px rgba(190,60,130,.6), inset 0 1px 0 #fff;
   transition:background .2s,border-color .2s,box-shadow .2s,transform .15s;
 }
@@ -1336,8 +1343,9 @@ body::before{
   box-shadow:inset 0 1px 0 #fff,0 8px 18px -18px rgba(255,92,158,.8);
 }
 .chk.done::after{
-  content:"✦";position:absolute;right:9px;bottom:5px;color:#FFC94D;
-  font-size:clamp(13px,1.9vh,17px);line-height:1;pointer-events:none;
+  content:"";position:absolute;right:9px;bottom:5px;pointer-events:none;
+  width:clamp(10px,1.5vh,14px);height:clamp(10px,1.5vh,14px);
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.6l2.6 6.6 6.6 2.6-6.6 2.6-2.6 6.6-2.6-6.6L3.4 10.8l6.6-2.6z' fill='%23FFC94D'/%3E%3C/svg%3E") center/contain no-repeat;
   animation:sparkPop 1.8s ease-out infinite;
 }
 @keyframes sparkPop{
@@ -1363,7 +1371,7 @@ body::before{
 /* ---------- 학습 항목 ---------- */
 .sitem{
   border-radius:18px;border-color:#FFDDEC;
-  background:linear-gradient(180deg,#FFFFFF,#FFFAFD);
+  background:linear-gradient(180deg,#FFFFFF,#FFF9FD 70%,#FFF2F9);
   box-shadow:0 8px 16px -20px rgba(190,60,130,.55);
 }
 .sitem:hover{border-color:#FFC0DC;}
@@ -1393,8 +1401,9 @@ body::before{
   background:linear-gradient(180deg,#FFFBFD,#FFE8F2);
   border-color:#FFC9E0;color:var(--rose-ink);
 }
-.cday{border-radius:14px;background:linear-gradient(180deg,#FFFFFF,#FFFAFD);}
+.cday{border-radius:14px;background:linear-gradient(180deg,#FFFFFF,#FFFAFE);}
 .cday:hover{background:#FFF2F9;}
+.cday.out{background:transparent;}
 .cday.today{background:#FFF1F9;border-color:#FFC9E0;box-shadow:0 6px 14px -14px rgba(255,92,158,.85);}
 .cday.today .cn{
   background:linear-gradient(160deg,#FF9AC8,#FF5C9E);
@@ -1482,7 +1491,7 @@ body::before{
   background:linear-gradient(180deg,#FFFCFE,#FFF6FB);
   border-radius:20px;color:#A98CA0;
 }
-.empty .tini-mini{width:clamp(44px,6vh,58px);height:auto;display:block;margin-bottom:2px;}
+.empty .tini-mini{width:clamp(56px,8vh,76px);height:auto;display:block;margin-bottom:2px;}
 
 /* ---------- 모두 완료 축하 팝업 ---------- */
 .cheer{
@@ -1533,7 +1542,7 @@ body::before{
   .top{grid-template-columns:auto 1fr;}
 }
 @media (orientation:landscape) and (min-width:960px) and (max-width:1200px){
-  .hero-fairy{width:clamp(50px,7vh,68px);}
+  .hero-fairy{width:clamp(56px,9vh,80px);}
   .card{border-radius:24px;}
   .celebrate{padding:6px 11px;}
 }
