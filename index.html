@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-title" content="우리 가족 보드" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<meta name="theme-color" content="#FFEFF6" />
+<meta name="theme-color" content="#FFE8F2" />
 <meta name="format-detection" content="telephone=no" />
 <meta name="description" content="거실 태블릿에 띄워 두는 우리 가족 대시보드 — 시계와 08:15 등원 카운트다운, 설 등원 체크리스트, 가족 일정, 요일별 학습 체크리스트, 한 줄 메모." />
 <title>우리 가족 보드</title>
@@ -1127,6 +1127,420 @@ h1,h2,h3{margin:0;font-weight:400;}
   .nav-wrap{flex-direction:column;gap:6px;}
   .sync-btn{width:100%;justify-content:center;min-height:38px;font-size:13px;}
 }
+
+/* ============================================================
+   ✨ 핑크 & 티니핑 — 하트 요정 테마 레이어
+   · 파스텔 베이비 핑크 + 로열 라벤더 + 골드/크림
+   · 반짝이는 하트 보석 · 별 스파클 · 리본/티아라 · 젤리 버튼
+   ============================================================ */
+:root{
+  --pink-0:#FFF4FA;
+  --pink-1:#FFE8F2;
+  --pink-2:#FFB6D5;
+  --pink-3:#FF8CC4;
+  --pink-4:#FF5C9E;
+  --rose:#FF5C9E;
+  --rose-ink:#C42A6E;
+  --lilac-1:#F4ECFF;
+  --lilac-2:#E9D8FD;
+  --lilac-3:#B794F4;
+  --lilac-ink:#6B3FA0;
+  --mint-1:#E8F8F4;
+  --mint-2:#A9E0D6;
+  --mint-ink:#23735F;
+  --gold-1:#FFF9E6;
+  --gold-2:#FFD166;
+  --gold-3:#F0B93F;
+  --gold-ink:#8E6413;
+  --cream-0:#FFFDFA;
+  --cream-1:#FFF8FC;
+  --cream-2:#FFEFF7;
+  --line:#FFDCEB;
+  --card:#FFFCFE;
+  --ink:#4A2545;
+  --ink-2:#6E4864;
+  --muted:#A98CA0;
+  --shadow:0 24px 44px -30px rgba(190,60,130,.45), 0 3px 10px rgba(190,60,130,.05);
+  --radius:26px;
+}
+
+body{
+  background:
+    radial-gradient(56% 44% at 0% -8%, #FFD3E9 0%, rgba(255,211,233,0) 62%),
+    radial-gradient(48% 44% at 102% -2%, #E9D8FD 0%, rgba(233,216,253,0) 66%),
+    radial-gradient(64% 48% at 50% 118%, #FFDCEF 0%, rgba(255,220,239,0) 60%),
+    linear-gradient(168deg,#FFF8FD 0%,#FFF1F9 40%,#F8F1FF 100%);
+  background-attachment:fixed;
+}
+/* 별가루가 천천히 흐르는 배경 */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(circle,#FFFFFF 0 1.6px,transparent 2px),
+    radial-gradient(circle,#FFD166 0 1.3px,transparent 1.7px),
+    radial-gradient(circle,#FFB6D5 0 2px,transparent 2.4px),
+    radial-gradient(circle,#D9C6FF 0 1.4px,transparent 1.8px);
+  background-size:190px 190px,250px 250px,330px 330px,420px 420px;
+  background-position:0 0,70px 100px,140px 40px,220px 160px;
+  opacity:.45;
+  animation:starDrift 26s linear infinite;
+}
+@keyframes starDrift{
+  from{background-position:0 0,70px 100px,140px 40px,220px 160px;}
+  to{background-position:190px 190px,320px 350px,470px 370px,640px 580px;}
+}
+.app{position:relative;z-index:1;}
+
+/* ---------- 캔디 · 구름 카드 ---------- */
+.card{
+  position:relative;
+  border:1.5px solid #FFDCEB;
+  border-radius:28px;
+  background:
+    radial-gradient(120% 62% at 50% -18%, #FFFFFF 0%, rgba(255,255,255,0) 62%),
+    linear-gradient(178deg,#FFFFFF 0%,#FFFAFD 46%,#FFF3FA 100%);
+  box-shadow:
+    0 24px 42px -30px rgba(190,60,130,.5),
+    0 2px 6px rgba(190,60,130,.05),
+    inset 0 1px 0 #FFFFFF,
+    inset 0 -10px 20px -18px rgba(255,92,158,.5);
+}
+.card-title{color:#4A2545;}
+.card-title::after{
+  content:"✦";font-size:.6em;color:#FFC94D;line-height:1;
+  transform:translateY(-.34em);
+}
+
+/* ---------- 상단 헤더 ---------- */
+.top{
+  grid-template-columns:auto auto minmax(0,1fr) auto;
+  overflow:hidden;
+  border-color:#FFD3E8;
+  background:
+    radial-gradient(64% 150% at 0% 0%, #FFE6F3 0%, rgba(255,230,243,0) 62%),
+    radial-gradient(56% 150% at 100% 0%, #F1E7FF 0%, rgba(241,231,255,0) 58%),
+    linear-gradient(112deg,#FFEDF7 0%,#FFF9FD 46%,#F7F0FF 100%);
+  box-shadow:0 22px 40px -30px rgba(190,60,130,.55), inset 0 1px 0 #fff;
+}
+.top::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(circle,#FFFFFF 0 2px,transparent 2.6px),
+    radial-gradient(circle,#FFE09A 0 1.7px,transparent 2.2px),
+    radial-gradient(circle,#FFB6D5 0 2.3px,transparent 2.9px);
+  background-size:230px 130px,320px 170px,410px 210px;
+  background-position:36px 18px,150px 66px,270px 26px;
+  animation:twinkleBg 5.6s ease-in-out infinite;
+}
+@keyframes twinkleBg{0%,100%{opacity:.2;}50%{opacity:.62;}}
+.top > *{position:relative;z-index:1;}
+
+.hero-fairy{
+  flex:0 0 auto;align-self:center;
+  width:clamp(52px,7.4vh,78px);
+  margin-left:clamp(-4px,-.3vw,0px);
+  filter:drop-shadow(0 10px 16px rgba(255,92,158,.26));
+}
+.hero-fairy svg{display:block;width:100%;height:auto;overflow:visible;}
+.fairy-wings{transform-box:fill-box;transform-origin:50% 72%;animation:wingFlap 2.8s ease-in-out infinite;}
+@keyframes wingFlap{0%,100%{transform:scaleX(1);}50%{transform:scaleX(.91);}}
+.fairy-spark{transform-box:fill-box;transform-origin:50% 50%;animation:twinkle 2.6s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:.3;transform:scale(.78);}50%{opacity:1;transform:scale(1.16);}}
+
+.time{color:#4A2545;letter-spacing:-.02em;text-shadow:0 2px 0 #fff,0 10px 20px rgba(255,92,158,.16);}
+.date{color:var(--ink-2);}
+
+/* ---------- 08:15 카운트다운 ---------- */
+.cd-label{color:var(--rose-ink);}
+.cd-left{color:#4A2545;}
+.cd-goal{
+  background:linear-gradient(180deg,#FFF9E6,#FFEFC2);
+  border-color:#F7DE9E;color:#8E6413;
+  box-shadow:inset 0 1px 0 #fff,0 3px 8px -6px rgba(240,185,63,.9);
+}
+.cd-bar{
+  background:linear-gradient(180deg,#FFE6F2,#FFD3E7);
+  box-shadow:inset 0 2px 8px rgba(200,80,140,.2), inset 0 -1px 0 rgba(255,255,255,.85);
+}
+.cd-bar > .fill{background:linear-gradient(90deg,#FFC9E2 0%,#FF8CC4 46%,#FF5C9E 100%);}
+.cd-bar > .fill::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(100deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.6) 50%,rgba(255,255,255,0) 62%);
+  background-size:260% 100%;
+  animation:shineSweep 3.8s linear infinite;
+}
+@keyframes shineSweep{from{background-position:180% 0;}to{background-position:-90% 0;}}
+.cd-bar.is-done > .fill{background:linear-gradient(90deg,#FFE1A8 0%,#FFB6D5 52%,#D7C0FB 100%);}
+.cd-mark{filter:drop-shadow(0 3px 5px rgba(190,60,130,.35));animation:markFloat 2.6s ease-in-out infinite;}
+@keyframes markFloat{0%,100%{transform:translate(-50%,-50%);}50%{transform:translate(-50%,-58%);}}
+
+/* ---------- 탭 ---------- */
+.tabs{
+  background:rgba(255,255,255,.82);
+  border:1.5px solid #FFDCEB;
+  box-shadow:0 16px 30px -26px rgba(190,60,130,.7), inset 0 1px 0 #fff;
+}
+.tab{color:#8A6480;}
+.tab:hover{background:#FFF2F9;}
+.tab.on{
+  color:#fff;
+  background:linear-gradient(160deg,#FF9AC8 0%,#FF5C9E 100%);
+  box-shadow:0 14px 24px -14px rgba(255,92,158,.9), inset 0 1px 0 rgba(255,255,255,.58);
+}
+.tab.on::after{content:"✦";font-size:.7em;line-height:1;opacity:.9;}
+.tab-badge{background:rgba(255,255,255,.3);}
+.tab:not(.on) .tab-badge{
+  background:linear-gradient(180deg,#fff,#FFE8F2);
+  color:var(--rose-ink);border:1px solid #FFCFE4;
+}
+
+/* ---------- 젤리 버튼 ---------- */
+.btn{
+  border-radius:18px;
+  border:1.5px solid #FFD9EA;
+  background:linear-gradient(180deg,#FFFFFF,#FFF4FA);
+  color:#6E4864;
+  box-shadow:0 6px 14px -12px rgba(190,60,130,.55), inset 0 1px 0 #fff;
+}
+.btn:hover{background:linear-gradient(180deg,#FFF8FD,#FFEDF7);border-color:#FFC0DC;}
+.btn.solid{
+  border-color:#FF5C9E;
+  background:linear-gradient(160deg,#FF8CC4 0%,#FF5C9E 62%,#F0458C 100%);
+  color:#fff;
+  box-shadow:0 14px 24px -14px rgba(255,92,158,.95), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -3px 0 rgba(190,40,110,.2);
+}
+.btn.solid:hover{background:linear-gradient(160deg,#FF7DBA,#F0458C);}
+.btn.danger{background:linear-gradient(180deg,#FFF7FB,#FFEFF6);border-color:#FFCFE2;color:var(--rose-ink);}
+
+.count{
+  background:linear-gradient(180deg,#FFFFFF,#FFE8F2);
+  border:1.5px solid #FFC9E0;
+  color:var(--rose-ink);
+  box-shadow:inset 0 1px 0 #fff,0 4px 10px -8px rgba(255,92,158,.7);
+}
+.bar{background:linear-gradient(180deg,#FFE6F2,#FFD8EA);box-shadow:inset 0 1px 3px rgba(200,80,140,.18);}
+.bar > i{background:linear-gradient(90deg,#FFC2DE,#FF8CC4 55%,#FF5C9E);box-shadow:inset 0 1px 0 rgba(255,255,255,.6);}
+
+/* ---------- 등원 체크 타일 · 하트 보석 체크 ---------- */
+.chk{
+  border-radius:22px;
+  border:1.5px solid #FFDDEC;
+  background:linear-gradient(180deg,#FFFFFF,#FFF6FB);
+  box-shadow:0 10px 20px -18px rgba(190,60,130,.6), inset 0 1px 0 #fff;
+  transition:background .2s,border-color .2s,box-shadow .2s,transform .15s;
+}
+.chk:hover{border-color:#FFC0DC;transform:translateY(-1px);box-shadow:0 14px 24px -18px rgba(255,92,158,.7), inset 0 1px 0 #fff;}
+.chk.done{
+  background:linear-gradient(180deg,#FFF7FC,#FFE9F4);
+  border-color:#FFC0DC;
+  box-shadow:inset 0 1px 0 #fff,0 8px 18px -18px rgba(255,92,158,.8);
+}
+.chk.done::after{
+  content:"✦";position:absolute;right:9px;bottom:5px;color:#FFC94D;
+  font-size:clamp(13px,1.9vh,17px);line-height:1;pointer-events:none;
+  animation:sparkPop 1.8s ease-out infinite;
+}
+@keyframes sparkPop{
+  0%{opacity:0;transform:scale(.4) rotate(-20deg);}
+  40%{opacity:1;transform:scale(1.1) rotate(12deg);}
+  100%{opacity:0;transform:scale(.6) rotate(40deg);}
+}
+.chk-box{
+  border:2px solid #FFC9E0;
+  background:linear-gradient(180deg,#fff,#FFF2F9);
+  box-shadow:inset 0 1px 2px rgba(255,150,195,.25);
+}
+.chk.done .chk-box{
+  border-color:#FF7DB6;
+  background:linear-gradient(160deg,#FFC2DE 0%,#FF5C9E 62%,#E23C86 100%);
+  box-shadow:0 6px 12px -6px rgba(255,92,158,.95), inset 0 1px 1px rgba(255,255,255,.72);
+  animation:gemPop .46s cubic-bezier(.2,1.5,.4,1);
+}
+@keyframes gemPop{0%{transform:scale(.72);}60%{transform:scale(1.12);}100%{transform:scale(1);}}
+.chk-box .tick{color:#fff;text-shadow:0 1px 0 rgba(190,40,110,.35);}
+.chk.done .chk-ico{filter:drop-shadow(0 4px 7px rgba(255,92,158,.3));}
+
+/* ---------- 학습 항목 ---------- */
+.sitem{
+  border-radius:18px;border-color:#FFDDEC;
+  background:linear-gradient(180deg,#FFFFFF,#FFFAFD);
+  box-shadow:0 8px 16px -20px rgba(190,60,130,.55);
+}
+.sitem:hover{border-color:#FFC0DC;}
+.sitem.done{background:linear-gradient(180deg,#FFF7FC,#FFEAF4);border-color:#FFC9E0;}
+.tickbox{border-color:#FFC9E0;background:linear-gradient(180deg,#fff,#FFF3FA);}
+.sitem.done .tickbox{
+  border-color:#FF7DB6;
+  background:linear-gradient(160deg,#FF9AC8,#FF5C9E);
+  box-shadow:0 4px 8px -5px rgba(255,92,158,.9);
+}
+.day{
+  border-radius:16px;border-color:#FFDCEB;
+  background:linear-gradient(180deg,#fff,#FFFAFD);
+  color:#8A6480;
+}
+.day:hover{background:#FFF2F9;border-color:#FFC0DC;}
+.day.on{
+  background:linear-gradient(160deg,#FF9AC8,#FF5C9E);
+  border-color:#FF5C9E;color:#fff;
+  box-shadow:0 10px 18px -12px rgba(255,92,158,.95), inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+/* ---------- 가족 일정 ---------- */
+.cal-btn{border-radius:14px;border-color:#FFDCEB;background:linear-gradient(180deg,#fff,#FFF7FC);}
+.cal-btn:hover{background:#FFEFF8;border-color:#FFC0DC;}
+.cal-btn.cal-today-btn{
+  background:linear-gradient(180deg,#FFFBFD,#FFE8F2);
+  border-color:#FFC9E0;color:var(--rose-ink);
+}
+.cday{border-radius:14px;background:linear-gradient(180deg,#FFFFFF,#FFFAFD);}
+.cday:hover{background:#FFF2F9;}
+.cday.today{background:#FFF1F9;border-color:#FFC9E0;box-shadow:0 6px 14px -14px rgba(255,92,158,.85);}
+.cday.today .cn{
+  background:linear-gradient(160deg,#FF9AC8,#FF5C9E);
+  box-shadow:0 6px 12px -7px rgba(255,92,158,.95), inset 0 1px 0 rgba(255,255,255,.5);
+}
+.cday.sel{border-color:#FF8CC4;background:#FFF4FA;box-shadow:inset 0 0 0 1.5px rgba(255,140,196,.55);}
+.cday.sel.today{background:#FFE9F4;border-color:#FF5C9E;}
+.ev{
+  border-radius:18px;border:1.5px solid #FFDCEB;
+  border-left:7px solid var(--evc,var(--pink-2));
+  background:linear-gradient(180deg,#FFFFFF,#FFFAFD);
+  box-shadow:0 10px 18px -20px rgba(190,60,130,.6);
+}
+.ev:hover{border-color:#FFC0DC;border-left-color:var(--evc,var(--pink-2));}
+.ev-time{
+  background:linear-gradient(180deg,#FFFFFF,#FFEFF8);
+  border:1px solid #FFDCEB;border-radius:13px;color:#4A2545;
+}
+.ev-time:hover{background:#FFE7F3;border-color:#FFC0DC;}
+.ev-done{border:2.5px solid #FFC9E0;background:linear-gradient(180deg,#fff,#FFF4FA);}
+.ev.done .ev-done{
+  border-color:#FF7DB6;
+  background:linear-gradient(160deg,#FF9AC8,#FF5C9E);
+  box-shadow:0 6px 12px -6px rgba(255,92,158,.85), inset 0 1px 0 rgba(255,255,255,.6);
+}
+.fchip{border-color:#FFDCEB;background:linear-gradient(180deg,#fff,#FFFAFD);}
+.fchip.on{background:linear-gradient(180deg,#FFF3FA,#FFE6F2);border-color:#FFC0DC;color:var(--rose-ink);}
+.day-pill{background:linear-gradient(180deg,#fff,#FFE8F2);border-color:#FFC9E0;}
+
+/* ---------- 하단 메모 ---------- */
+.memo-bar{
+  border-color:#FFD6E9;
+  background:linear-gradient(105deg,#FFF6FC 0%,#FFF1F9 48%,#F8F1FF 100%);
+}
+.memo-label{color:var(--rose-ink);}
+.memo{background:rgba(255,255,255,.5);border-radius:16px;}
+.memo:focus{background:#fff;box-shadow:inset 0 0 0 2px #FFC9E0;}
+
+/* ---------- 시트 ---------- */
+.sheet{
+  border-radius:30px;border:1.5px solid #FFE1EF;
+  background:linear-gradient(180deg,#FFFDFE,#FFF6FB);
+  box-shadow:0 34px 70px -30px rgba(120,50,90,.5);
+}
+.sheet h2{color:#4A2545;}
+.seg button{border-radius:16px;background:linear-gradient(180deg,#fff,#FFF8FC);border-color:#FFDCEB;}
+.seg button.on{background:linear-gradient(180deg,#FFF3FA,#FFE6F2);border-color:#FFC0DC;color:var(--rose-ink);}
+.chips button{border-radius:999px;background:linear-gradient(180deg,#fff,#FFF8FC);border-color:#FFDCEB;}
+.chips button:hover{background:#FFF2F9;border-color:#FFC0DC;}
+.item-preview{background:linear-gradient(120deg,#FFEFF8,#F6EEFF);border:1.5px dashed #FFC9E0;}
+.sheet input[type=text],.sheet input[type=time],.sheet input[type=date]{border-color:#FFD9EA;}
+
+/* ---------- 기기 연동 버튼 ---------- */
+.sync-btn{
+  border-color:#FFC9E0;
+  background:linear-gradient(180deg,#fff,#FFF6FB);
+  box-shadow:0 8px 18px -14px rgba(255,92,158,.6);
+}
+.sync-box{background:linear-gradient(180deg,#FFF7FC,#FFF1F9);border-color:#FFD3E8;}
+
+/* ---------- 토스트 ---------- */
+.toast{background:linear-gradient(160deg,#5C3552,#4A2545);border:1px solid rgba(255,255,255,.14);}
+
+/* ---------- 축하 배너 ---------- */
+.celebrate{
+  position:relative;overflow:hidden;
+  border:1.5px solid #FFC9E0;border-radius:18px;
+  background:linear-gradient(100deg,#FFEAF5 0%,#FFF8E8 52%,#F3EAFF 100%);
+  box-shadow:0 10px 20px -18px rgba(255,92,158,.75);
+}
+.celebrate::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(100deg,rgba(255,255,255,0) 40%,rgba(255,255,255,.72) 50%,rgba(255,255,255,0) 60%);
+  background-size:250% 100%;
+  animation:shineSweep 4.6s linear infinite;
+}
+.celebrate > *{position:relative;z-index:1;}
+.cel-fairy{flex:0 0 auto;width:clamp(28px,4.2vh,40px);display:flex;}
+.cel-fairy svg{width:100%;height:auto;display:block;}
+.cel-spark{margin-left:auto;font-size:1.15em;animation:twinkle 2s ease-in-out infinite;}
+
+/* ---------- 빈 상태 ---------- */
+.empty{
+  border:1.5px dashed #FFC0DC;
+  background:linear-gradient(180deg,#FFFCFE,#FFF6FB);
+  border-radius:20px;color:#A98CA0;
+}
+.empty .tini-mini{width:clamp(44px,6vh,58px);height:auto;display:block;margin-bottom:2px;}
+
+/* ---------- 모두 완료 축하 팝업 ---------- */
+.cheer{
+  position:fixed;inset:0;z-index:95;
+  display:flex;align-items:center;justify-content:center;
+  padding:18px;
+  background:radial-gradient(58% 58% at 50% 44%, rgba(255,214,235,.62) 0%, rgba(74,37,69,.46) 70%);
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  opacity:0;transition:opacity .22s ease;
+}
+.cheer.show{opacity:1;}
+.cheer-card{
+  position:relative;overflow:hidden;
+  width:min(560px,92vw);max-height:calc(100dvh - 36px);
+  padding:clamp(14px,2.2vh,24px) clamp(18px,2.4vw,30px) clamp(16px,2.2vh,22px);
+  border-radius:34px;border:2px solid #FFD3E8;
+  background:
+    radial-gradient(80% 60% at 50% 0%, #FFF6FB 0%, rgba(255,246,251,0) 62%),
+    linear-gradient(170deg,#FFFFFF 0%,#FFF4FA 52%,#F9F0FF 100%);
+  box-shadow:0 40px 80px -30px rgba(120,40,85,.55), inset 0 1px 0 #fff;
+  display:flex;flex-direction:column;align-items:center;gap:clamp(6px,1vh,12px);
+  text-align:center;
+  transform:scale(.86) translateY(12px);
+  transition:transform .34s cubic-bezier(.2,1.35,.35,1);
+}
+.cheer.show .cheer-card{transform:scale(1) translateY(0);}
+.cheer-fairy{width:min(44vh,296px);max-width:76%;filter:drop-shadow(0 18px 26px rgba(255,92,158,.3));}
+.cheer-fairy svg{display:block;width:100%;height:auto;overflow:visible;}
+.cheer-title{font-family:"Jua",sans-serif;font-size:clamp(22px,3.5vh,32px);color:var(--rose-ink);line-height:1.24;}
+.cheer-sub{font-size:clamp(14px,2.05vh,19px);color:#6E4864;line-height:1.5;word-break:keep-all;}
+.cheer-close{min-height:52px;padding:0 26px;border-radius:999px;font-size:clamp(15px,2.1vh,18px);}
+.cheer-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+.cheer-confetti i{
+  position:absolute;top:-10%;font-style:normal;line-height:1;
+  animation:confettiFall var(--t,3s) linear var(--d,0s) infinite;
+  opacity:0;
+}
+@keyframes confettiFall{
+  0%{transform:translateY(-12%) rotate(0deg);opacity:0;}
+  14%{opacity:1;}
+  100%{transform:translateY(540px) rotate(220deg);opacity:0;}
+}
+.cheer-card > *{position:relative;z-index:1;}
+
+/* ---------- 아이패드 가로 · 좁은 화면 보정 ---------- */
+@media (max-width:959px){
+  .hero-fairy{display:none;}
+  .top{grid-template-columns:auto 1fr;}
+}
+@media (orientation:landscape) and (min-width:960px) and (max-width:1200px){
+  .hero-fairy{width:clamp(50px,7vh,68px);}
+  .card{border-radius:24px;}
+  .celebrate{padding:6px 11px;}
+}
+@media (max-height:700px) and (min-width:960px){
+  .cheer-fairy{width:min(38vh,240px);}
+  .cheer-sub{display:none;}
+}
 </style>
 </head>
 <body>
@@ -1137,6 +1551,68 @@ h1,h2,h3{margin:0;font-weight:400;}
     <div class="clock">
       <div class="time" id="clock">--:--</div>
       <div class="date" id="date">오늘</div>
+    </div>
+
+    <!-- 하트 요정 마스코트 (직접 그린 인라인 SVG) -->
+    <div class="hero-fairy" aria-hidden="true">
+      <svg viewBox="0 0 150 170" focusable="false">
+        <defs>
+          <linearGradient id="fDress" x1="0" y1="0" x2="0.15" y2="1">
+            <stop offset="0" stop-color="#FFDCF0"/><stop offset=".55" stop-color="#FFA9D0"/><stop offset="1" stop-color="#FF6FAE"/>
+          </linearGradient>
+          <linearGradient id="fHair" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#FFCBE4"/><stop offset="1" stop-color="#F98FC2"/>
+          </linearGradient>
+          <linearGradient id="fWing" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#FFFFFF" stop-opacity=".95"/><stop offset="1" stop-color="#E9D8FD" stop-opacity=".8"/>
+          </linearGradient>
+          <linearGradient id="fGold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#FFF4C9"/><stop offset="1" stop-color="#FFD166"/>
+          </linearGradient>
+          <radialGradient id="fGlow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#FFDAEE" stop-opacity=".9"/><stop offset="1" stop-color="#FFDAEE" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="75" cy="159" rx="54" ry="11" fill="url(#fGlow)"/>
+        <g class="fairy-wings">
+          <path d="M70 94 C44 60 20 60 15 80 C10 101 42 113 70 105 Z" fill="url(#fWing)" stroke="#F3C8E1" stroke-width="1.5"/>
+          <path d="M80 94 C106 60 130 60 135 80 C140 101 108 113 80 105 Z" fill="url(#fWing)" stroke="#F3C8E1" stroke-width="1.5"/>
+          <path d="M64 116 C46 110 33 118 37 130 C41 142 60 138 68 126 Z" fill="url(#fWing)" stroke="#F3C8E1" stroke-width="1.2" opacity=".9"/>
+          <path d="M86 116 C104 110 117 118 113 130 C109 142 90 138 82 126 Z" fill="url(#fWing)" stroke="#F3C8E1" stroke-width="1.2" opacity=".9"/>
+        </g>
+        <path d="M75 14 C50 14 40 32 41 54 C42 72 46 86 52 96 L98 96 C104 86 108 72 109 54 C110 32 100 14 75 14 Z" fill="url(#fHair)"/>
+        <path d="M75 82 C62 82 55 94 50 114 C46 130 50 141 62 141 L88 141 C100 141 104 130 100 114 C95 94 88 82 75 82 Z" fill="url(#fDress)"/>
+        <path d="M56 95 C49 100 45 108 47 116" fill="none" stroke="#FFCBE4" stroke-width="8" stroke-linecap="round"/>
+        <path d="M94 95 C100 100 104 104 106 108" fill="none" stroke="#FFCBE4" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="75" cy="57" r="30" fill="#FFEFEF"/>
+        <path d="M45 53 C46 31 58 22 75 22 C92 22 104 31 105 53 C97 42 88 38 75 45 C62 38 53 42 45 53 Z" fill="#FFB6D5" stroke="#FF9CC6" stroke-width="1"/>
+        <path d="M0 -6.5 C -3.2 -15 -14.5 -14 -14.5 -5 C -14.5 3.5 -6 9 0 15.5 C 6 9 14.5 3.5 14.5 -5 C 14.5 -14 3.2 -15 0 -6.5 Z" transform="translate(45,24) scale(.66)" fill="#FFCBE4" stroke="#FF8CC4" stroke-width="1.6"/>
+        <path d="M0 -6.5 C -3.2 -15 -14.5 -14 -14.5 -5 C -14.5 3.5 -6 9 0 15.5 C 6 9 14.5 3.5 14.5 -5 C 14.5 -14 3.2 -15 0 -6.5 Z" transform="translate(105,24) scale(.66)" fill="#FFCBE4" stroke="#FF8CC4" stroke-width="1.6"/>
+        <path d="M56 31 L64 14 L75 26 L86 14 L94 31 Z" fill="url(#fGold)" stroke="#F0B93F" stroke-width="1.4" stroke-linejoin="round"/>
+        <circle cx="75" cy="27" r="3.4" fill="#FF5C9E" stroke="#fff" stroke-width="1"/>
+        <ellipse cx="63" cy="59" rx="8.6" ry="10.6" fill="#4A2545"/>
+        <ellipse cx="63" cy="59" rx="5.6" ry="7.6" fill="#8B4A83"/>
+        <circle cx="60" cy="55" r="3.1" fill="#fff"/>
+        <circle cx="66.2" cy="63.5" r="1.6" fill="#fff" opacity=".92"/>
+        <path d="M58 49 l1.1 2.5 2.5 1.1 -2.5 1.1 -1.1 2.5 -1.1 -2.5 -2.5 -1.1 2.5 -1.1 Z" fill="#fff"/>
+        <ellipse cx="87" cy="59" rx="8.6" ry="10.6" fill="#4A2545"/>
+        <ellipse cx="87" cy="59" rx="5.6" ry="7.6" fill="#8B4A83"/>
+        <circle cx="84" cy="55" r="3.1" fill="#fff"/>
+        <circle cx="90.2" cy="63.5" r="1.6" fill="#fff" opacity=".92"/>
+        <path d="M82 49 l1.1 2.5 2.5 1.1 -2.5 1.1 -1.1 2.5 -1.1 -2.5 -2.5 -1.1 2.5 -1.1 Z" fill="#fff"/>
+        <ellipse cx="52" cy="69" rx="6" ry="3.8" fill="#FF8FBB" opacity=".6"/>
+        <ellipse cx="98" cy="69" rx="6" ry="3.8" fill="#FF8FBB" opacity=".6"/>
+        <path d="M70 71 q5 6 10 0" fill="none" stroke="#B8577F" stroke-width="2" stroke-linecap="round"/>
+        <path d="M74 98 C66 92 55 94 57 101 C59 108 70 105 74 101 Z" fill="#FF7DB6"/>
+        <path d="M76 98 C84 92 95 94 93 101 C91 108 80 105 76 101 Z" fill="#FF7DB6"/>
+        <circle cx="75" cy="100" r="3.6" fill="#FFF1F7" stroke="#FF5C9E" stroke-width="1.2"/>
+        <path d="M112 122 L127 60" stroke="#F0B93F" stroke-width="4" stroke-linecap="round"/>
+        <path d="M127 40 l3.6 8.8 8.8 3.6 -8.8 3.6 -3.6 8.8 -3.6 -8.8 -8.8 -3.6 8.8 -3.6 Z" fill="#FFD166" stroke="#F0B93F" stroke-width="1.2"/>
+        <circle cx="127" cy="52.4" r="3" fill="#FF5C9E"/>
+        <path class="fairy-spark" d="M24 40 l1.6 3.8 3.8 1.6 -3.8 1.6 -1.6 3.8 -1.6 -3.8 -3.8 -1.6 3.8 -1.6 Z" fill="#FFD166"/>
+        <path class="fairy-spark" d="M122 100 l1.2 2.8 2.8 1.2 -2.8 1.2 -1.2 2.8 -1.2 -2.8 -2.8 -1.2 2.8 -1.2 Z" fill="#B794F4" style="animation-delay:.9s"/>
+        <path class="fairy-spark" d="M34 118 l1.2 2.8 2.8 1.2 -2.8 1.2 -1.2 2.8 -1.2 -2.8 -2.8 -1.2 2.8 -1.2 Z" fill="#FFB6D5" style="animation-delay:1.6s"/>
+      </svg>
     </div>
 
     <div class="cd" aria-live="polite">
@@ -1200,8 +1676,9 @@ h1,h2,h3{margin:0;font-weight:400;}
           <div class="bar" aria-hidden="true"><i id="chkBar"></i></div>
 
           <div class="celebrate" id="celebrate" hidden>
-            <span class="spark">💗</span>
+            <span class="cel-fairy" aria-hidden="true"><svg viewBox="0 0 80 88" focusable="false"><ellipse cx="40" cy="84" rx="24" ry="4" fill="#FFD9EC"/><path d="M26 66 C14 54 6 58 9 67 C12 76 22 76 28 71 Z" fill="#F4ECFF" stroke="#E4D3FB" stroke-width="1.2"/><path d="M54 66 C66 54 74 58 71 67 C68 76 58 76 52 71 Z" fill="#F4ECFF" stroke="#E4D3FB" stroke-width="1.2"/><path d="M22 82 C22 68 29 59 40 59 C51 59 58 68 58 82 Z" fill="#FFB6D5"/><path d="M27 82 C30 72 34 66 40 66 C46 66 50 72 53 82 Z" fill="#FF8CC4" opacity=".45"/><path d="M0 -6.5 C -3.2 -15 -14.5 -14 -14.5 -5 C -14.5 3.5 -6 9 0 15.5 C 6 9 14.5 3.5 14.5 -5 C 14.5 -14 3.2 -15 0 -6.5 Z" transform="translate(40,72) scale(.3)" fill="#FFF6FB" opacity=".95"/><circle cx="40" cy="38" r="22" fill="#FFEFEF"/><path d="M18 36 C20 21 27 15 40 15 C53 15 60 21 62 36 C54 28 48 26 40 31 C32 26 26 28 18 36 Z" fill="#FFA9CE" stroke="#FF9CC6" stroke-width=".8"/><path d="M0 -6.5 C -3.2 -15 -14.5 -14 -14.5 -5 C -14.5 3.5 -6 9 0 15.5 C 6 9 14.5 3.5 14.5 -5 C 14.5 -14 3.2 -15 0 -6.5 Z" transform="translate(20,17) scale(.46)" fill="#FFCBE4" stroke="#FF8CC4" stroke-width="1.6"/><path d="M0 -6.5 C -3.2 -15 -14.5 -14 -14.5 -5 C -14.5 3.5 -6 9 0 15.5 C 6 9 14.5 3.5 14.5 -5 C 14.5 -14 3.2 -15 0 -6.5 Z" transform="translate(60,17) scale(.46)" fill="#FFCBE4" stroke="#FF8CC4" stroke-width="1.6"/><path d="M30 24 L34 14 L40 20.5 L46 14 L50 24 Z" fill="#FFD166" stroke="#F0B93F" stroke-width="1.2" stroke-linejoin="round"/><circle cx="40" cy="22" r="2.4" fill="#FF5C9E" stroke="#fff" stroke-width=".7"/><ellipse cx="32" cy="40" rx="5.6" ry="6.8" fill="#4A2545"/><ellipse cx="32" cy="40" rx="3.5" ry="4.7" fill="#8B4A83"/><circle cx="30" cy="37.4" r="2" fill="#fff"/><circle cx="34.2" cy="43.2" r="1" fill="#fff"/><ellipse cx="48" cy="40" rx="5.6" ry="6.8" fill="#4A2545"/><ellipse cx="48" cy="40" rx="3.5" ry="4.7" fill="#8B4A83"/><circle cx="46" cy="37.4" r="2" fill="#fff"/><circle cx="50.2" cy="43.2" r="1" fill="#fff"/><ellipse cx="25" cy="47" rx="4" ry="2.6" fill="#FF8FBB" opacity=".6"/><ellipse cx="55" cy="47" rx="4" ry="2.6" fill="#FF8FBB" opacity=".6"/><path d="M36 48 q4 4.5 8 0" fill="none" stroke="#B8577F" stroke-width="1.8" stroke-linecap="round"/><path d="M64 30 l1 2.4 2.4 1 -2.4 1 -1 2.4 -1 -2.4 -2.4 -1 2.4 -1 Z" fill="#FFD166"/></svg></span>
             <span>다 챙겼어요! 설, 오늘도 즐겁게 다녀와요 🎀</span>
+            <span class="cel-spark" aria-hidden="true">✨</span>
           </div>
 
           <ul class="list" id="chkList" aria-live="polite"></ul>
@@ -1432,6 +1909,76 @@ h1,h2,h3{margin:0;font-weight:400;}
   </div>
 </div>
 
+<!-- ===== 모두 완료 축하 팝업 (하츄핑 감성 하트 요정) ===== -->
+<div class="cheer" id="cheer" hidden>
+  <div class="cheer-card" role="dialog" aria-modal="true" aria-labelledby="cheerTitle" aria-describedby="cheerSub">
+    <div class="cheer-confetti" id="cheerConfetti" aria-hidden="true"></div>
+    <div class="cheer-fairy" aria-hidden="true">
+      <svg viewBox="0 0 150 170" focusable="false">
+        <defs>
+          <linearGradient id="cDress" x1="0" y1="0" x2="0.15" y2="1">
+            <stop offset="0" stop-color="#FFDCF0"/><stop offset=".55" stop-color="#FFA9D0"/><stop offset="1" stop-color="#FF6FAE"/>
+          </linearGradient>
+          <linearGradient id="cHair" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#FFCBE4"/><stop offset="1" stop-color="#F98FC2"/>
+          </linearGradient>
+          <linearGradient id="cWing" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#FFFFFF" stop-opacity=".95"/><stop offset="1" stop-color="#E9D8FD" stop-opacity=".8"/>
+          </linearGradient>
+          <linearGradient id="cGold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#FFF4C9"/><stop offset="1" stop-color="#FFD166"/>
+          </linearGradient>
+          <radialGradient id="cGlow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#FFDAEE" stop-opacity=".9"/><stop offset="1" stop-color="#FFDAEE" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="75" cy="159" rx="54" ry="11" fill="url(#cGlow)"/>
+        <g class="fairy-wings">
+          <path d="M70 94 C44 60 20 60 15 80 C10 101 42 113 70 105 Z" fill="url(#cWing)" stroke="#F3C8E1" stroke-width="1.5"/>
+          <path d="M80 94 C106 60 130 60 135 80 C140 101 108 113 80 105 Z" fill="url(#cWing)" stroke="#F3C8E1" stroke-width="1.5"/>
+          <path d="M64 116 C46 110 33 118 37 130 C41 142 60 138 68 126 Z" fill="url(#cWing)" stroke="#F3C8E1" stroke-width="1.2" opacity=".9"/>
+          <path d="M86 116 C104 110 117 118 113 130 C109 142 90 138 82 126 Z" fill="url(#cWing)" stroke="#F3C8E1" stroke-width="1.2" opacity=".9"/>
+        </g>
+        <path d="M75 14 C50 14 40 32 41 54 C42 72 46 86 52 96 L98 96 C104 86 108 72 109 54 C110 32 100 14 75 14 Z" fill="url(#cHair)"/>
+        <path d="M75 82 C62 82 55 94 50 114 C46 130 50 141 62 141 L88 141 C100 141 104 130 100 114 C95 94 88 82 75 82 Z" fill="url(#cDress)"/>
+        <path d="M56 95 C49 100 45 108 47 116" fill="none" stroke="#FFCBE4" stroke-width="8" stroke-linecap="round"/>
+        <path d="M94 95 C100 100 104 104 106 108" fill="none" stroke="#FFCBE4" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="75" cy="57" r="30" fill="#FFEFEF"/>
+        <path d="M45 53 C46 31 58 22 75 22 C92 22 104 31 105 53 C97 42 88 38 75 45 C62 38 53 42 45 53 Z" fill="#FFB6D5" stroke="#FF9CC6" stroke-width="1"/>
+        <path d="M0 -6.5 C -3.2 -15 -14.5 -14 -14.5 -5 C -14.5 3.5 -6 9 0 15.5 C 6 9 14.5 3.5 14.5 -5 C 14.5 -14 3.2 -15 0 -6.5 Z" transform="translate(45,24) scale(.66)" fill="#FFCBE4" stroke="#FF8CC4" stroke-width="1.6"/>
+        <path d="M0 -6.5 C -3.2 -15 -14.5 -14 -14.5 -5 C -14.5 3.5 -6 9 0 15.5 C 6 9 14.5 3.5 14.5 -5 C 14.5 -14 3.2 -15 0 -6.5 Z" transform="translate(105,24) scale(.66)" fill="#FFCBE4" stroke="#FF8CC4" stroke-width="1.6"/>
+        <path d="M56 31 L64 14 L75 26 L86 14 L94 31 Z" fill="url(#cGold)" stroke="#F0B93F" stroke-width="1.4" stroke-linejoin="round"/>
+        <circle cx="75" cy="27" r="3.4" fill="#FF5C9E" stroke="#fff" stroke-width="1"/>
+        <ellipse cx="63" cy="59" rx="8.6" ry="10.6" fill="#4A2545"/>
+        <ellipse cx="63" cy="59" rx="5.6" ry="7.6" fill="#8B4A83"/>
+        <circle cx="60" cy="55" r="3.1" fill="#fff"/>
+        <circle cx="66.2" cy="63.5" r="1.6" fill="#fff" opacity=".92"/>
+        <path d="M58 49 l1.1 2.5 2.5 1.1 -2.5 1.1 -1.1 2.5 -1.1 -2.5 -2.5 -1.1 2.5 -1.1 Z" fill="#fff"/>
+        <ellipse cx="87" cy="59" rx="8.6" ry="10.6" fill="#4A2545"/>
+        <ellipse cx="87" cy="59" rx="5.6" ry="7.6" fill="#8B4A83"/>
+        <circle cx="84" cy="55" r="3.1" fill="#fff"/>
+        <circle cx="90.2" cy="63.5" r="1.6" fill="#fff" opacity=".92"/>
+        <path d="M82 49 l1.1 2.5 2.5 1.1 -2.5 1.1 -1.1 2.5 -1.1 -2.5 -2.5 -1.1 2.5 -1.1 Z" fill="#fff"/>
+        <ellipse cx="52" cy="69" rx="6" ry="3.8" fill="#FF8FBB" opacity=".6"/>
+        <ellipse cx="98" cy="69" rx="6" ry="3.8" fill="#FF8FBB" opacity=".6"/>
+        <path d="M70 71 q5 6 10 0" fill="none" stroke="#B8577F" stroke-width="2" stroke-linecap="round"/>
+        <path d="M74 98 C66 92 55 94 57 101 C59 108 70 105 74 101 Z" fill="#FF7DB6"/>
+        <path d="M76 98 C84 92 95 94 93 101 C91 108 80 105 76 101 Z" fill="#FF7DB6"/>
+        <circle cx="75" cy="100" r="3.6" fill="#FFF1F7" stroke="#FF5C9E" stroke-width="1.2"/>
+        <path d="M112 122 L127 60" stroke="#F0B93F" stroke-width="4" stroke-linecap="round"/>
+        <path d="M127 40 l3.6 8.8 8.8 3.6 -8.8 3.6 -3.6 8.8 -3.6 -8.8 -8.8 -3.6 8.8 -3.6 Z" fill="#FFD166" stroke="#F0B93F" stroke-width="1.2"/>
+        <circle cx="127" cy="52.4" r="3" fill="#FF5C9E"/>
+        <path class="fairy-spark" d="M24 40 l1.6 3.8 3.8 1.6 -3.8 1.6 -1.6 3.8 -1.6 -3.8 -3.8 -1.6 3.8 -1.6 Z" fill="#FFD166"/>
+        <path class="fairy-spark" d="M122 100 l1.2 2.8 2.8 1.2 -2.8 1.2 -1.2 2.8 -1.2 -2.8 -2.8 -1.2 2.8 -1.2 Z" fill="#B794F4" style="animation-delay:.9s"/>
+        <path class="fairy-spark" d="M34 118 l1.2 2.8 2.8 1.2 -2.8 1.2 -1.2 2.8 -1.2 -2.8 -2.8 -1.2 2.8 -1.2 Z" fill="#FFB6D5" style="animation-delay:1.6s"/>
+      </svg>
+    </div>
+    <h2 class="cheer-title" id="cheerTitle">우와! 모두 완료했어요! 💖</h2>
+    <p class="cheer-sub" id="cheerSub">설이 최고예요! 오늘도 참 잘했어요! ✨</p>
+    <button type="button" class="btn solid cheer-close" id="cheerClose">설이 최고야! 💗</button>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <script>
@@ -1505,11 +2052,12 @@ function isAllWho(e) {
 function whoLabel(e) { return isAllWho(e) ? '전체' : e.who.join(' · '); }
 function whoKey(e) { return isAllWho(e) ? 'all' : (WHO_KEY[e.who[0]] || 'all'); }
 
-/* 등원 목표 시각 08:15 — 06:30 부터 08:15 까지를 한 칸(105분)으로 보고 바가 줄어든다 */
+/* 등원 목표 시각 08:15 — 07:15 부터 08:15 까지를 한 칸(60분)으로 보고 바가 줄어든다.
+   07:15 전에는 가득 찬 채로 기다리고, 08:15 가 지나면 빈다. */
 const GOAL_LABEL = '08:15';
-const START_MIN = 6 * 60 + 30;         // 390
+const START_MIN = 7 * 60 + 15;         // 435 (07:15)
 const GOAL_MIN = 8 * 60 + 15;          // 495
-const WINDOW_SEC = (GOAL_MIN - START_MIN) * 60;   // 6300
+const WINDOW_SEC = (GOAL_MIN - START_MIN) * 60;   // 3600 (07:15~08:15)
 
 /* 예전 버전(freshState)이 넣어 두던 기본 예시 일정 — 이제는 넣지 않는다. */
 const OLD_DEFAULT_EVENTS = [
@@ -1558,6 +2106,29 @@ const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast?latitude=35.8714&lon
 const $ = (id) => document.getElementById(id);
 const uid = () => Math.random().toString(36).slice(2, 9);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* 빈 상태에 함께 서는 작은 하트 요정 (직접 그린 인라인 SVG — 외부 이미지 없음) */
+const TINI_MINI = '<svg class="tini-mini" viewBox="0 0 80 88" aria-hidden="true" focusable="false">'
+  + '<ellipse cx="40" cy="84" rx="24" ry="4" fill="#FFD9EC"/>'
+  + '<path d="M26 66 C14 54 6 58 9 67 C12 76 22 76 28 71 Z" fill="#F4ECFF" stroke="#E4D3FB" stroke-width="1.2"/>'
+  + '<path d="M54 66 C66 54 74 58 71 67 C68 76 58 76 52 71 Z" fill="#F4ECFF" stroke="#E4D3FB" stroke-width="1.2"/>'
+  + '<path d="M22 82 C22 68 29 59 40 59 C51 59 58 68 58 82 Z" fill="#FFB6D5"/>'
+  + '<path d="M27 82 C30 72 34 66 40 66 C46 66 50 72 53 82 Z" fill="#FF8CC4" opacity=".45"/>'
+  + '<path d="M24 78 C30 82 50 82 56 78 L57 82 L23 82 Z" fill="#FFF7FC" opacity=".9"/>'
+  + '<path d="M0 -6.5 C -3.2 -15 -14.5 -14 -14.5 -5 C -14.5 3.5 -6 9 0 15.5 C 6 9 14.5 3.5 14.5 -5 C 14.5 -14 3.2 -15 0 -6.5 Z" transform="translate(40,72) scale(.3)" fill="#FFF6FB" opacity=".95"/>'
+  + '<circle cx="40" cy="38" r="22" fill="#FFEFEF"/>'
+  + '<path d="M18 36 C20 21 27 15 40 15 C53 15 60 21 62 36 C54 28 48 26 40 31 C32 26 26 28 18 36 Z" fill="#FFA9CE" stroke="#FF9CC6" stroke-width=".8"/>'
+  + '<path d="M0 -6.5 C -3.2 -15 -14.5 -14 -14.5 -5 C -14.5 3.5 -6 9 0 15.5 C 6 9 14.5 3.5 14.5 -5 C 14.5 -14 3.2 -15 0 -6.5 Z" transform="translate(20,17) scale(.46)" fill="#FFCBE4" stroke="#FF8CC4" stroke-width="1.6"/>'
+  + '<path d="M0 -6.5 C -3.2 -15 -14.5 -14 -14.5 -5 C -14.5 3.5 -6 9 0 15.5 C 6 9 14.5 3.5 14.5 -5 C 14.5 -14 3.2 -15 0 -6.5 Z" transform="translate(60,17) scale(.46)" fill="#FFCBE4" stroke="#FF8CC4" stroke-width="1.6"/>'
+  + '<path d="M30 24 L34 14 L40 20.5 L46 14 L50 24 Z" fill="#FFD166" stroke="#F0B93F" stroke-width="1.2" stroke-linejoin="round"/>'
+  + '<circle cx="40" cy="22" r="2.4" fill="#FF5C9E" stroke="#fff" stroke-width=".7"/>'
+  + '<ellipse cx="32" cy="40" rx="5.6" ry="6.8" fill="#4A2545"/><ellipse cx="32" cy="40" rx="3.5" ry="4.7" fill="#8B4A83"/>'
+  + '<circle cx="30" cy="37.4" r="2" fill="#fff"/><circle cx="34.2" cy="43.2" r="1" fill="#fff"/>'
+  + '<ellipse cx="48" cy="40" rx="5.6" ry="6.8" fill="#4A2545"/><ellipse cx="48" cy="40" rx="3.5" ry="4.7" fill="#8B4A83"/>'
+  + '<circle cx="46" cy="37.4" r="2" fill="#fff"/><circle cx="50.2" cy="43.2" r="1" fill="#fff"/>'
+  + '<ellipse cx="25" cy="47" rx="4" ry="2.6" fill="#FF8FBB" opacity=".6"/><ellipse cx="55" cy="47" rx="4" ry="2.6" fill="#FF8FBB" opacity=".6"/>'
+  + '<path d="M36 48 q4 4.5 8 0" fill="none" stroke="#B8577F" stroke-width="1.8" stroke-linecap="round"/>'
+  + '<path d="M64 30 l1 2.4 2.4 1 -2.4 1 -1 2.4 -1 -2.4 -2.4 -1 2.4 -1 Z" fill="#FFD166"/></svg>';
 
 /** 한국 시간 기준 오늘 날짜·요일 */
 function todayInfo() {
@@ -1935,14 +2506,14 @@ function renderChecklist() {
 
   const list = $('chkList');
   if (!total) {
-    list.innerHTML = '<li class="empty"><span class="empty-ico">🎀</span>아직 항목이 없어요.<br>아래 ＋ 항목 추가로 하나씩 만들어 보세요</li>';
+    list.innerHTML = '<li class="empty">' + TINI_MINI + '아직 항목이 없어요.<br>아래 ＋ 항목 추가로 하나씩 만들어 보세요</li>';
   } else {
     list.innerHTML = items.map((i) => `
       <li class="chk${i.done ? ' done' : ''}" data-id="${esc(i.id)}">
         <button class="chk-main" type="button" role="checkbox" aria-checked="${i.done}" aria-label="${esc(i.text)}">
           <span class="chk-ico" aria-hidden="true">${esc(i.icon || iconFor(i.text))}</span>
           <span class="chk-text">${esc(i.text)}</span>
-          <span class="chk-box" aria-hidden="true"><span class="tick">✓</span></span>
+          <span class="chk-box" aria-hidden="true"><span class="tick">♥</span></span>
         </button>
         <div class="chk-tools">
           <button class="chk-edit" type="button" data-act="edit-chk" aria-label="${esc(i.text)} 이름·그림 수정">✏️</button>
@@ -1962,6 +2533,8 @@ function toggleChk(id) {
   it.done = !it.done;
   save();
   renderChecklist();
+  const items = S.checklist.items;
+  if (it.done && items.length && items.every((x) => x.done)) showCheer('chk');
 }
 
 function resetToday() {
@@ -2010,10 +2583,14 @@ function learnDone(dateKey) {
 }
 function toggleLearn(dayKey, dateKey, id) {
   const m = S.learning.done[dateKey] || (S.learning.done[dateKey] = {});
+  const turningOn = !m[id];
   if (m[id]) delete m[id]; else m[id] = true;
   if (!Object.keys(m).length) delete S.learning.done[dateKey];
   save();
   renderStudy();
+  const items = learnItems(dayKey);
+  const now = learnDone(dateKey);
+  if (turningOn && items.length && items.every((i) => now[i.id])) showCheer('study');
 }
 
 function renderDays() {
@@ -2050,12 +2627,12 @@ function renderStudy() {
 
   const list = $('studyList');
   if (!items.length) {
-    list.innerHTML = '<li class="empty"><span class="empty-ico">📚</span>' + esc(dayFull(studyDay)) + ' 학습 항목이 없어요.<br>아래 ＋ 로 추가해 보세요</li>';
+    list.innerHTML = '<li class="empty">' + TINI_MINI + esc(dayFull(studyDay)) + ' 학습 항목이 없어요.<br>아래 ＋ 로 추가해 보세요</li>';
   } else {
     list.innerHTML = items.map((i) => `
       <li class="sitem${m[i.id] ? ' done' : ''}" data-id="${esc(i.id)}">
         <button class="sitem-main" type="button" role="checkbox" aria-checked="${m[i.id] ? 'true' : 'false'}" aria-label="${esc(i.text)}">
-          <span class="tickbox" aria-hidden="true"><i>✓</i></span>
+          <span class="tickbox" aria-hidden="true"><i>♥</i></span>
           <span class="s-ico" aria-hidden="true">${esc(i.icon || iconFor(i.text))}</span>
           <span class="s-text">${esc(i.text)}</span>
         </button>
@@ -2201,8 +2778,8 @@ function renderSchedule() {
   const list = $('schList');
   if (!rows.length) {
     list.innerHTML = eventsOnDate(selDate).length
-      ? '<li class="empty"><span class="empty-ico">🎀</span>이 구성원의 일정은 이 날 없어요</li>'
-      : '<li class="empty"><span class="empty-ico">🗓</span>이 날 일정이 아직 없어요.<br>아래 ＋ 일정 추가로 미리 등록해 보세요</li>';
+      ? '<li class="empty">' + TINI_MINI + '이 구성원의 일정은 이 날 없어요</li>'
+      : '<li class="empty">' + TINI_MINI + '이 날 일정이 아직 없어요.<br>아래 ＋ 일정 추가로 미리 등록해 보세요</li>';
     return;
   }
 
@@ -2224,7 +2801,7 @@ function renderSchedule() {
         </button>
         <div class="ev-tools">
           <button class="ev-edit" type="button" data-act="edit-ev" aria-label="${esc(e.title)} 수정">✏️</button>
-          <button class="ev-done" type="button" aria-pressed="${done}" aria-label="${esc(e.title)} 완료 표시"><span class="tick">✓</span></button>
+          <button class="ev-done" type="button" aria-pressed="${done}" aria-label="${esc(e.title)} 완료 표시"><span class="tick">♥</span></button>
           <button class="ev-del" type="button" data-act="del-ev" aria-label="${esc(e.title)} 삭제"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
         </div>
       </li>`;
@@ -2579,6 +3156,58 @@ function hideToast() {
 }
 
 /* ============================================================
+   10-b. 모두 완료 축하 팝업 — 하트 요정이 크게 등장
+   · 체크를 눌러 마지막 항목이 완성되는 '그 순간'에만 뜬다
+   · 새로고침해서 이미 100%인 화면에서는 뜨지 않는다
+   ============================================================ */
+const CHEER_CONFETTI = ['💖','💗','✨','⭐','🎀','💫','💕'];
+let cheerHideTimer = null;
+
+function buildConfetti() {
+  const box = $('cheerConfetti');
+  if (!box) return;
+  let html = '';
+  for (let i = 0; i < 22; i++) {
+    const ch = CHEER_CONFETTI[i % CHEER_CONFETTI.length];
+    const left = Math.round(Math.random() * 94);
+    const delay = (Math.random() * 1.8).toFixed(2);
+    const dur = (2.6 + Math.random() * 2.2).toFixed(2);
+    const size = 15 + Math.round(Math.random() * 22);
+    html += '<i style="left:' + left + '%;--d:' + delay + 's;--t:' + dur + 's;font-size:' + size + 'px">' + ch + '</i>';
+  }
+  box.innerHTML = html;
+}
+
+function showCheer(kind) {
+  const el = $('cheer');
+  if (!el) return;
+  const sub = $('cheerSub');
+  if (sub) {
+    sub.textContent = kind === 'study'
+      ? '오늘 공부도 전부 끝냈어요! 설이 정말 대단해요 ✨'
+      : '설이 최고예요! 오늘도 참 잘했어요! ✨';
+  }
+  buildConfetti();
+  el.hidden = false;
+  requestAnimationFrame(() => el.classList.add('show'));
+  const btn = $('cheerClose');
+  if (btn) setTimeout(() => btn.focus(), 260);
+}
+
+function hideCheer() {
+  const el = $('cheer');
+  if (!el || el.hidden) return;
+  el.classList.remove('show');
+  clearTimeout(cheerHideTimer);
+  cheerHideTimer = setTimeout(() => { el.hidden = true; }, 240);
+}
+
+function bindCheer() {
+  $('cheerClose').addEventListener('click', hideCheer);
+  $('cheer').addEventListener('click', (e) => { if (e.target === $('cheer')) hideCheer(); });
+}
+
+/* ============================================================
    11. 탭 전환
    ============================================================ */
 let activeTab = 'today';
@@ -2724,7 +3353,7 @@ function bind() {
 
   // Escape 로 열린 시트 닫기
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { closeSheet(); closeItemSheet(); closeSyncSheet(); }
+    if (e.key === 'Escape') { closeSheet(); closeItemSheet(); closeSyncSheet(); hideCheer(); }
   });
 
   // 화면 복귀 시 갱신
@@ -3047,6 +3676,7 @@ function boot() {
   initMemo();
   bind();
   bindSync();
+  bindCheer();
   loadWeather();
 
   if (syncCfg.token) {
